@@ -1,4 +1,4 @@
-class StockorDemoAccess.Extension extends Lanes.Extensions.Base
+class StockorDemo.Extension extends Lanes.Extensions.Base
 
     FILE: FILE
 
@@ -6,4 +6,4 @@ class StockorDemoAccess.Extension extends Lanes.Extensions.Base
 
     onRegistered: ->
         Lanes.Access.createLoginDialog = (view)->
-            new StockorDemoAccess.LoginDialog( parent: view )
+            new StockorDemo.LoginDialog( parent: view )

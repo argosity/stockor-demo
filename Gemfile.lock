@@ -44,7 +44,7 @@ GIT
 PATH
   remote: .
   specs:
-    stockor-demo-access (0.1)
+    stockor-demo-access (0.2)
       stockor
 
 GEM

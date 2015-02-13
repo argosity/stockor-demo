@@ -1,6 +1,6 @@
 require 'lanes/access/user'
 
-StockorDemoAccess::ROLE_IDS.each do | role, id |
+StockorDemo::ROLE_IDS.each do | role, id |
     role = role.to_s
     unless Lanes::User.exists?(id)
         u = Lanes::User.new( name: "#{role.camelize} Tester", email: "testing+#{role}@stockor.org",
@@ -11,7 +11,7 @@ StockorDemoAccess::ROLE_IDS.each do | role, id |
     end
 end
 
-max_id = StockorDemoAccess::ROLE_IDS.values.max
+max_id = StockorDemo::ROLE_IDS.values.max
 
 if Lanes::User.connection.execute("select nextval('lanes_users_id_seq')").getvalue(0,0).to_i < max_id
     Lanes::User.connection.execute("select setval('lanes_users_id_seq',#{max_id})")

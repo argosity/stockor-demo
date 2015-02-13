@@ -1,12 +1,12 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'stockor-demo-access/version'
+require 'stockor-demo/version'
 
 Gem::Specification.new do |spec|
 
-  spec.name          = "stockor-demo-access"
-  spec.version       = StockorDemoAccess::VERSION
+  spec.name          = "stockor-demo"
+  spec.version       = StockorDemo::VERSION
   spec.authors       = ["Nathan Stitt"]
   spec.email         = ["nathan@argosity.com"]
 

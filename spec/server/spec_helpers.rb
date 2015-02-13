@@ -1,16 +1,16 @@
-require_relative '../../lib/StockorDemoAccess'
+require_relative '../../lib/stockor-demo'
 require 'lanes/spec_helper'
 
-module StockorDemoAccess
+module StockorDemo
 
     # Add more helper methods to be used by all tests here...
 
     class TestCase < Lanes::TestCase
-        include StockorDemoAccess
+        include StockorDemo
     end
 
     class ApiTestCase < Lanes::ApiTestCase
-        include StockorDemoAccess
+        include StockorDemo
     end
 
 end

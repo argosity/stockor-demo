@@ -1,12 +1,12 @@
-require_relative '../stockor-demo-access'
+require_relative '../stockor-demo'
 require 'lanes/access/extension'
 require 'skr/extension'
 
-module StockorDemoAccess
+module StockorDemo
 
     class Extension < Lanes::Extensions::Definition
 
-        identifier "stockor-demo-access"
+        identifier "stockor-demo"
 
         root_path Pathname.new(__FILE__).dirname.join("..","..").expand_path
 

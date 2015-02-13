@@ -4,8 +4,8 @@
     We'll only send you a single follow-up email, that it.
   </p>
   <div class="row">
-    <%= h.text_field 'name',  writable: true, width:6 %>
-    <%= h.text_field 'email', writable: true, width:6, type: 'email' %>
+    <%= h.text_field 'name',  writable: true, value: "Nathan", width:6 %>
+    <%= h.text_field 'email', writable: true, value: "nathan@stitt.org", width:6, type: 'email' %>
   </div>
   <h4>
     Role to test with:
@@ -16,7 +16,7 @@
         <input type="radio" name="role" value="administrator" checked>
       </td>
       <td>Administrator</td>
-      <td>Access to all everything</td>
+      <td>Control ALL THE THINGS</td>
     </tr><tr>
       <td align="center">
         <input type="radio" name="role" value="accounting">

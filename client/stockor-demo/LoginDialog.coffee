@@ -1,4 +1,4 @@
-class StockorDemoAccess.LoginDialog extends Lanes.Components.ModalDialog
+class StockorDemo.LoginDialog extends Lanes.Components.ModalDialog
 
     bodyTemplateName: 'dialog-body'
     templatePrefix: 'stockor-demo'
@@ -29,7 +29,7 @@ class StockorDemoAccess.LoginDialog extends Lanes.Components.ModalDialog
         this.toggleShown(!Lanes.current_user.isLoggedIn)
 
     onLogin: (ev)->
-        user = new StockorDemoAccess.UserModel(
+        user = new StockorDemo.UserModel(
             email: @ui.email.val(), name: @ui.name.val()
             role_names: [ this.query('input:checked').value ]
         )

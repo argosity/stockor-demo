@@ -1,11 +1,11 @@
 require "lanes"
 require 'require_all'
 require 'lanes/access'
-require_relative "stockor-demo-access/version.rb"
-require_relative "stockor-demo-access/extension.rb"
-require_relative "stockor-demo-access/patch_user_info"
+require_relative "stockor-demo/version.rb"
+require_relative "stockor-demo/extension.rb"
+require_relative "stockor-demo/patch_user_info"
 
-module StockorDemoAccess
+module StockorDemo
 
     ROLE_IDS = {
                 administrator: 1,
