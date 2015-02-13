@@ -1,13 +1,12 @@
-require 'lanes/api'
-
 module Lanes
 
-    API::Root.before do
-        Thread.current[:demo_user_info] = {
-          name: session[:name],
-          email: session[:email]
-        }
-    end
+
+    # API::Root.before do
+    #     Thread.current[:demo_user_info] = {
+    #       name: session[:name],
+    #       email: session[:email]
+    #     }
+    # end
 
     module Workspace
 

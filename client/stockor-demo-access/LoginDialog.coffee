@@ -1,7 +1,7 @@
 class StockorDemoAccess.LoginDialog extends Lanes.Components.ModalDialog
 
     bodyTemplateName: 'dialog-body'
-    templatePrefix: 'stockor-demo-access'
+    templatePrefix: 'stockor-demo'
     hideOnBackdropClick: false
     showHideButton: false
     hideOnEsc: false

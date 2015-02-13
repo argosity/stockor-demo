@@ -1,5 +1,6 @@
 require_relative '../stockor-demo-access'
-require 'lanes/access'
+require 'lanes/access/extension'
+require 'skr/extension'
 
 module StockorDemoAccess
 

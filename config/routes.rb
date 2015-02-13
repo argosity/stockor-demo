@@ -18,9 +18,9 @@ Lanes::API.routes.draw do
                       1
                   end
 
-        session[:user_id] = user_id
-        session[:name]  = data[:name]
-        session[:email] = data[:email]
+        session['user_id'] = user_id
+        session['name']  = data[:name]
+        session['email'] = data[:email]
 
         wrap_json_reply do
             { success: true, data: Lanes::User.find(user_id).workspace_data }
