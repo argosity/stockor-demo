@@ -1,8 +1,11 @@
 source 'https://rubygems.org'
 
-#gem "lanes", '0.1.3'
-gem "lanes", github: 'argosity/lanes', branch: 'master'
+gem "lanes",   github: 'argosity/lanes',   branch: 'master'
 gem "stockor", github: 'argosity/stockor', branch: 'master'
+
+gem 'capistrano-bundler'
+gem 'capistrano-rails'
+gem 'capistrano-passenger'
 
 gem "rake"
 gem 'puma'
