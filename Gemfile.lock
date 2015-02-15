@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: f652f27733416d561c05ba780a9139453c8d5260
+  revision: ca5df0825f0bc8ca45ab026b2a5a82ac1a974b9b
   branch: master
   specs:
     lanes (0.1.5)
@@ -34,7 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: 28271ab814aad980cb10cd6bed8be7ea399df060
+  revision: b7112ab95f55c12a022dffdace6846c382f5aa04
   branch: master
   specs:
     stockor (0.1.5)
