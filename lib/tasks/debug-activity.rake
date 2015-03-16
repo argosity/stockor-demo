@@ -1,8 +1,17 @@
 namespace :demo do
+
+  desc "load demo data"
+  task :data do
+    require_relative "../stockor-demo/demo_data"
+    StockorDemo::DemoData.run
+  end
+
+  desc "Generate activity"
   task :activity do
 
     require 'faker'
     require 'lanes/api/pub_sub'
+    require 'stockor'
 
     Lanes::DB.establish_connection
     Lanes::API::PubSub.initialize
@@ -37,7 +46,7 @@ namespace :demo do
           name:  Faker::Name.name, email: Faker::Internet.email
         }
 
-        record = klass.order(:code).first
+        record = klass.find_by_code("TEST")
         update = case rand(3)
                  when 0 then record
                  when 1 then record.billing_address
