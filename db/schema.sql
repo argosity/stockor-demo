@@ -568,7 +568,7 @@ CREATE TABLE skr_sku_locs (
 
 CREATE TABLE skr_skus (
     id integer NOT NULL,
-    default_vendor_id integer NOT NULL,
+    default_vendor_id integer,
     gl_asset_account_id integer NOT NULL,
     default_uom_code character varying NOT NULL,
     code character varying NOT NULL,
@@ -1500,49 +1500,6 @@ ALTER SEQUENCE skr_vouchers_id_seq OWNED BY skr_vouchers.id;
 
 
 --
--- Name: stockor_demo_testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE stockor_demo_testers (
-    id integer NOT NULL,
-    name character varying,
-    email character varying,
-    visits text[] DEFAULT '{}'::text[],
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: stockor_demo_testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE stockor_demo_testers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: stockor_demo_testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE stockor_demo_testers_id_seq OWNED BY stockor_demo_testers.id;
-
-
---
--- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE test (
-    a integer,
-    b boolean
-);
-
-
---
 -- Name: testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1790,13 +1747,6 @@ ALTER TABLE ONLY skr_vo_lines ALTER COLUMN id SET DEFAULT nextval('skr_vo_lines_
 --
 
 ALTER TABLE ONLY skr_vouchers ALTER COLUMN id SET DEFAULT nextval('skr_vouchers_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY stockor_demo_testers ALTER COLUMN id SET DEFAULT nextval('stockor_demo_testers_id_seq'::regclass);
 
 
 --
@@ -2060,14 +2010,6 @@ ALTER TABLE ONLY skr_vo_lines
 
 ALTER TABLE ONLY skr_vouchers
     ADD CONSTRAINT skr_vouchers_pkey PRIMARY KEY (id);
-
-
---
--- Name: stockor_demo_testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY stockor_demo_testers
-    ADD CONSTRAINT stockor_demo_testers_pkey PRIMARY KEY (id);
 
 
 --
@@ -2765,8 +2707,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140401164740');
 INSERT INTO schema_migrations (version) VALUES ('20140422024010');
 
 INSERT INTO schema_migrations (version) VALUES ('20140615031600');
-
-INSERT INTO schema_migrations (version) VALUES ('20150218012403');
 
 INSERT INTO schema_migrations (version) VALUES ('20150220015108');
 
