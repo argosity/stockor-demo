@@ -21,6 +21,14 @@ class StockorDemo.LoginDialog extends Lanes.Components.ModalDialog
         name:  'input[name=name]'
         email: 'input[name=email]'
 
+    session:
+        failure: 'boolean'
+        message: 'string'
+
+    bindings:
+        failure: { type:'toggle', selector: '.alert' }
+        message: { type: 'text',  selector: '.alert' }
+
     initialize: (options)->
         this.listenToAndRun(Lanes.current_user, 'change:isLoggedIn', this.onUserChange)
 
@@ -33,11 +41,12 @@ class StockorDemo.LoginDialog extends Lanes.Components.ModalDialog
             email: @ui.email.val(), name: @ui.name.val()
             role_names: [ this.query('input:checked').value ]
         )
-        Lanes.Views.SaveNotify(this, model: user )
-            .then (resp)=>
-                session = resp.reply.data
-                Lanes.current_user.setLoginData(session.user, session.access)
-                @hide()
+        Lanes.Views.SaveNotify(this, model: user ).then (save)=>
+            @failure = !save.success
+            @message = user.lastServerMessage
+            Lanes.current_user.setLoginData(save.data.user, save.data.access)
+            @hide() if save.success
+
 
     onShown: ->
         @ui.name.focus()

@@ -1,11 +1,12 @@
 <div class="container">
 
+  <div class="alert alert-danger" role="alert"></div>
   <p>
     We'll only send you a single follow-up email, that it.
   </p>
   <div class="row">
-    <%= h.text_field 'name',  writable: true, value: "Nathan", width:6 %>
-    <%= h.text_field 'email', writable: true, value: "nathan@stitt.org", width:6, type: 'email' %>
+    <%= h.text_field 'name',  writable: true, width:6 %>
+    <%= h.text_field 'email', writable: true, width:6, type: 'email' %>
   </div>
   <h4>
     Role to test with:
