@@ -1,3 +1,5 @@
+require 'stockor-demo'
+
 Lanes::API.routes.draw do
 
     # It's a demo - we don't worry about security
@@ -5,25 +7,14 @@ Lanes::API.routes.draw do
     # and then log them in with it
 
     post "/demo-user.json" do
-        if data['name'].blank? || data['email'].blank?
-            return { success:false, message: "Need name and email for demo" }
-        end
-
-        user_id = case data['role_names'].first
-                  when 'administrator'    then 1
-                  when 'accounting'       then 2
-                  when 'customer_support' then 3
-                  when 'purchasing'       then 4
-                  else
-                      1
-                  end
-
-        session['user_id'] = user_id
-        session['name']  = data[:name]
-        session['email'] = data[:email]
-
-        wrap_json_reply do
-            { success: true, data: Lanes::User.find(user_id).workspace_data }
+        wrap_reply do
+            tester = StockorDemo::Tester.record(data, session)
+            if tester.valid?
+                session['user_id'] = tester.user.id
+                { success: true, data: tester.user.workspace_data }
+            else
+                { success:false, message: tester.errors.full_messages.join(", ") }
+            end
         end
 
     end

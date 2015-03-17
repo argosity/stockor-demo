@@ -16,7 +16,8 @@ module StockorDemo
 
     extend self
 
-    def user_for(role)
-        f
-    end
+
 end
+
+require_relative "stockor-demo/model"
+require_rel "stockor-demo/models"

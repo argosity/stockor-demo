@@ -5,5 +5,5 @@ development:
 
 test:
   adapter: postgresql
-  database: skr_test
+  database: skr_dev
   host: /tmp
