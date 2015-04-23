@@ -2,7 +2,7 @@ class StockorDemo.Extension extends Lanes.Extensions.Base
 
     FILE: FILE
 
-    identifier: "stockor-demo-access"
+    identifier: "stockor-demo"
 
     onRegistered: ->
         Lanes.Access.createLoginDialog = (view)->
