@@ -1,12 +1,13 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 3574e2186fff13c0bc6203ce1fd437f30142e500
+  revision: 311d8af53b7bcbc2581e2db4fcbdbe9822e424e8
   branch: master
   specs:
-    lanes (0.1.9)
+    lanes (0.1.9.pre.1)
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
       closure-compiler (~> 1.1)
+      coffee-react (~> 3.0)
       coffee-script (~> 2.3)
       compass-import-once (~> 1.0)
       execjs (~> 2.2)
@@ -34,7 +35,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: 9a33feb4cbe6b809d5dda353ff38d151a9af1ea8
+  revision: dfe9f045830771f0f7cf7f51f8b8d4cfc0232c47
   branch: master
   specs:
     stockor (0.1.8)
@@ -50,15 +51,15 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.1.0)
-    activemodel (4.2.1)
-      activesupport (= 4.2.1)
+    aasm (4.2.0)
+    activemodel (4.2.3)
+      activesupport (= 4.2.3)
       builder (~> 3.1)
-    activerecord (4.2.1)
-      activemodel (= 4.2.1)
-      activesupport (= 4.2.1)
+    activerecord (4.2.3)
+      activemodel (= 4.2.3)
+      activesupport (= 4.2.3)
       arel (~> 6.0)
-    activesupport (4.2.1)
+    activesupport (4.2.3)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -74,17 +75,17 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-passenger (0.0.5)
+    capistrano-passenger (0.1.0)
       capistrano (~> 3.0)
     capistrano-rails (1.1.3)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    celluloid (0.16.0)
-      timers (~> 4.0.0)
     childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     closure-compiler (1.1.11)
     coderay (1.1.0)
+    coffee-react (3.0.1)
+      execjs
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -93,15 +94,14 @@ GEM
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
     crass (1.0.2)
-    eventmachine (1.0.7)
     execjs (2.5.2)
     faker (1.4.3)
       i18n (~> 0.5)
-    ffi (1.9.8)
+    ffi (1.9.9)
     formatador (0.2.5)
-    guard (2.12.5)
+    guard (2.12.7)
       formatador (>= 0.2.4)
-      listen (~> 2.7)
+      listen (>= 2.7, <= 4.0)
       lumberjack (~> 1.0)
       nenv (~> 0.1)
       notiffany (~> 0.0)
@@ -109,7 +109,7 @@ GEM
       shellany (~> 0.0)
       thor (>= 0.18.1)
     guard-compat (1.2.1)
-    guard-jasmine (2.0.5)
+    guard-jasmine (2.0.6)
       childprocess (~> 0.5)
       guard (~> 2.8)
       guard-compat (~> 1.2)
@@ -120,35 +120,32 @@ GEM
     guard-minitest (2.4.4)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
-    hashie (3.4.1)
+    hashie (3.4.2)
     hike (1.2.3)
-    hitimes (1.2.2)
     i18n (0.7.0)
-    jasmine (2.2.0)
-      jasmine-core (~> 2.2)
+    jasmine (2.3.0)
+      jasmine-core (~> 2.3)
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (2.2.0)
-    json (1.8.2)
-    listen (2.10.0)
-      celluloid (~> 0.16.0)
+    jasmine-core (2.3.4)
+    json (1.8.3)
+    listen (3.0.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
-    message_bus (1.0.9)
-      eventmachine
+    message_bus (1.0.14)
       rack (>= 1.1.3)
       redis
     metaclass (0.0.4)
     method_source (0.8.2)
     mini_portile (0.6.2)
-    minitest (5.6.0)
+    minitest (5.7.0)
     minitest-around (0.3.1)
       minitest (~> 5.0)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    multi_json (1.11.0)
+    multi_json (1.11.1)
     nenv (0.2.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -160,8 +157,8 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    oj (2.12.4)
-    pg (0.18.1)
+    oj (2.12.9)
+    pg (0.18.2)
     phantomjs (1.9.8.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -169,9 +166,9 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
-    puma (2.11.2)
+    puma (2.11.3)
       rack (>= 1.1, < 2.0)
-    rack (1.6.0)
+    rack (1.6.4)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -179,7 +176,7 @@ GEM
     rack_csrf (2.5.0)
       rack (>= 1.1.0)
     rake (10.4.2)
-    rb-fsevent (0.9.4)
+    rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     redis (3.2.1)
@@ -188,20 +185,20 @@ GEM
       crass (~> 1.0.1)
       nokogiri (>= 1.4.4)
       nokogumbo (= 1.2.0)
-    sass (3.4.13)
+    sass (3.4.15)
     shellany (0.0.1)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
-    sprockets (2.12.3)
+    sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-helpers (1.1.0)
-      sprockets (~> 2.0)
+    sprockets-helpers (1.2.1)
+      sprockets (>= 2.2)
     sshkit (1.7.1)
       colorize (>= 0.7.0)
       net-scp (>= 1.1.2)
@@ -209,8 +206,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    timers (4.0.1)
-      hitimes
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     yui-compressor (0.12.0)
@@ -230,3 +225,6 @@ DEPENDENCIES
   rake
   stockor!
   stockor-demo!
+
+BUNDLED WITH
+   1.10.5

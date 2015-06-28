@@ -1,4 +1,3 @@
-//=require ./LoginDialog
-//=require ./dialog-body
-//=require ./UserModel
-//=require ./Extension
+//= require ./Extension
+//= require ./Tester
+//= require ./LoginDialog

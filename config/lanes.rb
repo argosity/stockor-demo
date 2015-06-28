@@ -4,4 +4,5 @@
 # It will not be evaluated if another extension is loading this one
 Lanes.configure do | config |
 
+
 end

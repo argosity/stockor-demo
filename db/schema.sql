@@ -526,11 +526,10 @@ CREATE TABLE skr_sales_orders (
     billing_address_id integer NOT NULL,
     terms_id integer NOT NULL,
     order_date date NOT NULL,
-    state character varying NOT NULL,
+    state smallint NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     ship_partial boolean DEFAULT false NOT NULL,
-    is_complete boolean DEFAULT false NOT NULL,
     po_num character varying,
     notes text,
     options hstore DEFAULT ''::hstore,
@@ -964,7 +963,7 @@ CREATE TABLE skr_purchase_orders (
     location_id integer NOT NULL,
     ship_addr_id integer NOT NULL,
     terms_id integer NOT NULL,
-    state character varying NOT NULL,
+    state smallint NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     order_date date NOT NULL,
     receiving_completed_at timestamp without time zone,
@@ -1175,14 +1174,14 @@ CREATE VIEW skr_sku_qty_details AS
      LEFT JOIN ( SELECT s_1.id AS sku_id,
             sum(((sol.qty - sol.qty_canceled) * sol.uom_size)) AS qty
            FROM (((skr_so_lines sol
-             JOIN skr_sales_orders so ON (((so.id = sol.sales_order_id) AND ((so.state)::text <> ALL (ARRAY[('canceled'::character varying)::text, ('complete'::character varying)::text])))))
+             JOIN skr_sales_orders so ON (((so.id = sol.sales_order_id) AND (so.state <> ALL (ARRAY[5, 9])))))
              JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
              JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
           GROUP BY s_1.id) sol_ttl ON ((sol_ttl.sku_id = s.id)))
      LEFT JOIN ( SELECT s_1.id AS sku_id,
             sum(((pol.qty - pol.qty_canceled) * pol.uom_size)) AS qty
            FROM (((skr_po_lines pol
-             JOIN skr_purchase_orders po ON (((po.id = pol.purchase_order_id) AND ((po.state)::text <> ALL (ARRAY[('canceled'::character varying)::text, ('complete'::character varying)::text])))))
+             JOIN skr_purchase_orders po ON (((po.id = pol.purchase_order_id) AND (po.state <> ALL (ARRAY[5, 9])))))
              JOIN skr_sku_locs sl ON ((sl.id = pol.sku_loc_id)))
              JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
           GROUP BY s_1.id) pol_ttl ON ((pol_ttl.sku_id = s.id)));

@@ -10,11 +10,10 @@ namespace :demo do
   task :activity do
 
     require 'faker'
-    require 'lanes/api/pub_sub'
+    require 'lanes/api'
     require 'stockor'
 
     Lanes::DB.establish_connection
-    Lanes::API::PubSub.initialize
 
     attributes = {
       Skr::Address  => [:name,:email,:phone,:line1,:line2,:city,:state,:postal_code],
@@ -46,7 +45,7 @@ namespace :demo do
           name:  Faker::Name.name, email: Faker::Internet.email
         }
 
-        record = klass.find_by_code("TEST")
+        record = klass.find_by_code("STOCKOR")
         update = case rand(3)
                  when 0 then record
                  when 1 then record.billing_address
@@ -60,7 +59,7 @@ namespace :demo do
 
         update.update_attribute( attribute, value )
       end
-      sleep 10
+      sleep 30
 
     end
   end

@@ -7,7 +7,6 @@ module StockorDemo
 
             def initialize( count )
                 super()
-
                 @gl = Skr::GlAccount.default_for(:ar)
                 ensure_record_count(count) do
                     begin
@@ -15,6 +14,9 @@ module StockorDemo
                         code = Lanes::Strings.code_identifier(name)
                     end while model.where(code: code ).any?
                     create(code, name)
+                end
+                unless Skr::Customer.find_by_code("STOCKOR")
+                    create("STOCKOR", "Stockor test customer")
                 end
             end
 

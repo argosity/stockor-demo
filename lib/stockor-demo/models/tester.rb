@@ -12,7 +12,7 @@ module StockorDemo
             tester = Tester.find_or_initialize_by(email: parts['email'])
             tester.name = data['name']
             tester.visits << Date.today.strftime("%F")
-            tester.role = data['role_names'].first
+            tester.role = data['role']
             tester.save
             tester
         end

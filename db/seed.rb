@@ -6,7 +6,7 @@ StockorDemo::ROLE_IDS.each do | role, id |
         u = Lanes::User.new( name: "#{role.camelize} Tester", email: "testing+#{role}@stockor.org",
           login: role, role_names: [role] )
         u.id = id
-        u.password = "password"
+        u.password_confirmation = u.password = "password"
         u.save!
     end
 end
