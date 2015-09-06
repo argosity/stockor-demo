@@ -1,14 +1,28 @@
 class StockorDemo.LoginDialog extends Lanes.React.Component
 
+    statics:
+        show: (viewport, props = {}) ->
+            tester = new StockorDemo.Tester(name: "Joe Cool", email: "Joe@Test.com")
+            handler = new _.Promise( (onOk, onCancel) ->
+                viewport.modalProps = _.extend({}, props,
+                    title: 'View Stockor Demo'
+                    onCancel: onCancel, onOk: onOk, show: true,
+                    buttons: [{ title: 'Ok', style: 'primary'}]
+                    body: Lanes.u.withReactContext({viewport: viewport}, ->
+                        <StockorDemo.LoginDialog model={tester} attemptLogin={onOk} />
+                    )
+                )
+            )
+            handler.then (dlg) ->
+                tester.save(ignoreErrors: true).then ->
+                    _.extend(viewport.modalProps, {show: _.any(tester.errors)})
+
     mixins: [
         Lanes.React.Mixins.RelayEditingState
     ]
 
     dataObjects: ->
-        model: new StockorDemo.Tester(name: "Joe Cool", email: "Joe@Test.com")
-
-    # getInitialState: ->
-    #     editing: true
+        model: 'props'
 
     getDefaultProps: ->
         writable: true, editOnly: true
@@ -31,74 +45,63 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
     onHide: Lanes.emptyFn
 
     render: ->
-        <LC.Modal title='Stockor Demo'
-            backdrop={true}
-            onRequestHide={@onHide}
-            closeButton={false}
-            animation={false}>
+        <div className='modal-body tester-login'>
+            <p className="lead">
+              We will only send you a single follow-up email.
+            </p>
+            {@warning() if @state.hasError}
+            <BS.Row>
+                <BS.Col sm={12} md={6}>
+                    <LC.Input
+                        model={@model}
+                        autoFocus
+                        name="name"
+                        label='Name'
+                        placeholder='Your Name'
+                    />
+                </BS.Col>
+                <BS.Col sm={12} md={6}>
+                    <LC.Input
+                        model={@model}
+                        name="email"
+                        type='email'
+                        label='Email'
+                        placeholder='Enter Email Address'
+                    />
+                </BS.Col>
+            </BS.Row>
 
-            <div className='modal-body tester-login'>
-                <p className="lead">
-                  We will only send you a single follow-up email, that it.
-                </p>
-                {@warning() if @state.hasError}
-                <BS.Row>
-                    <BS.Col sm={12} md={6}>
-                        <LC.TextField
-                            model={@model}
-                            autoFocus
-                            name="name"
-                            label='Name'
-                            placeholder='Your Name'
-                        />
-                    </BS.Col>
-                    <BS.Col sm={12} md={6}>
-                        <LC.TextField
-                            model={@model}
-                            name="email"
-                            type='email'
-                            label='Email'
-                            placeholder='Enter Email Address'
-                        />
-                    </BS.Col>
-                </BS.Row>
+            <h4>
+              Role to test with:
+            </h4>
+            <table className="table table-striped table-hover" onClick={@setRoleFromRow}>
+              <tr>
+                <td align="center">
+                  <LC.RadioField writable name="role" value="administrator" model={@model} />
+                </td>
+                <td>Administrator</td>
+                <td>Control ALL THE THINGS</td>
+              </tr><tr>
+                <td align="center">
+                  <LC.RadioField name="role" value="accounting" model={@model} />
+                </td>
+                <td>Accounting</td>
+                <td>Financial information, sets credit limits.</td>
+              </tr><tr>
+                <td align="center">
+                  <LC.RadioField name="role" value="customer_support"
+                    model={@model} />
+                </td>
+                <td>Customer Service</td>
+                <td>Customer and Sales Orders</td>
+              </tr><tr>
+                <td align="center">
+                  <LC.RadioField name="role" value="purchasing" model={@model} />
+                </td>
+                <td>Purchasing</td>
+                <td>Vendors and Purchase Orders</td>
+              </tr>
 
-                <h4>
-                  Role to test with:
-                </h4>
-                <table className="table table-striped table-hover" onClick={@setRoleFromRow}>
-                  <tr>
-                    <td align="center">
-                      <LC.RadioField writable name="role" value="administrator" model={@model} />
-                    </td>
-                    <td>Administrator</td>
-                    <td>Control ALL THE THINGS</td>
-                  </tr><tr>
-                    <td align="center">
-                      <LC.RadioField name="role" value="accounting" model={@model} />
-                    </td>
-                    <td>Accounting</td>
-                    <td>Financial information, sets credit limits.</td>
-                  </tr><tr>
-                    <td align="center">
-                      <LC.RadioField name="role" value="customer_support"
-                        model={@model} />
-                    </td>
-                    <td>Customer Service</td>
-                    <td>Customer and Sales Orders</td>
-                  </tr><tr>
-                    <td align="center">
-                      <LC.RadioField name="role" value="purchasing" model={@model} />
-                    </td>
-                    <td>Purchasing</td>
-                    <td>Vendors and Purchase Orders</td>
-                  </tr>
+            </table>
 
-                </table>
-
-            </div>
-            <div className='modal-footer'>
-              <BS.Button onClick={@login} bsStyle='primary'>Login</BS.Button>
-            </div>
-
-        </LC.Modal>
+        </div>

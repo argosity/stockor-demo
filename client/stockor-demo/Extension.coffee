@@ -13,4 +13,4 @@ class StockorDemo.Extension extends Lanes.Extensions.Base
         # Overwrite the function responsible for creating the login dialog
         # with a function that returns our own dialog
         Lanes.Access.LoginDialog.instance = ->
-            @cache ||= React.createFactory(StockorDemo.LoginDialog)
+            StockorDemo.LoginDialog
