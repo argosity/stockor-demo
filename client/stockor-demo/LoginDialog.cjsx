@@ -2,15 +2,15 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
 
     statics:
         show: (viewport, props = {}) ->
+
             tester = new StockorDemo.Tester(name: "Joe Cool", email: "Joe@Test.com")
             handler = new _.Promise( (onOk, onCancel) ->
                 viewport.modalProps = _.extend({}, props,
                     title: 'View Stockor Demo'
                     onCancel: onCancel, onOk: onOk, show: true,
                     buttons: [{ title: 'Ok', style: 'primary'}]
-                    body: Lanes.u.withReactContext({viewport: viewport}, ->
+                    body: ->
                         <StockorDemo.LoginDialog model={tester} attemptLogin={onOk} />
-                    )
                 )
             )
             handler.then (dlg) ->
