@@ -151,6 +151,42 @@ ALTER SEQUENCE skr_addresses_id_seq OWNED BY skr_addresses.id;
 
 
 --
+-- Name: skr_customer_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_customer_projects (
+    id integer NOT NULL,
+    code character varying NOT NULL,
+    description text NOT NULL,
+    po_num text NOT NULL,
+    sku_id integer NOT NULL,
+    customer_id integer NOT NULL,
+    rates jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: skr_customer_projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_customer_projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_customer_projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_customer_projects_id_seq OWNED BY skr_customer_projects.id;
+
+
+--
 -- Name: skr_customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -163,11 +199,12 @@ CREATE TABLE skr_customers (
     gl_receivables_account_id integer NOT NULL,
     credit_limit numeric(15,2) DEFAULT 0.0,
     open_balance numeric(15,2) DEFAULT 0.0,
+    is_tax_exempt boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     name character varying NOT NULL,
     notes text,
     website text,
-    options hstore DEFAULT ''::hstore,
+    options jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -461,6 +498,7 @@ CREATE TABLE skr_inv_lines (
     "position" smallint NOT NULL,
     qty integer NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
+    options jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -484,10 +522,12 @@ CREATE TABLE skr_invoices (
     shipping_address_id integer NOT NULL,
     billing_address_id integer NOT NULL,
     amount_paid numeric(15,2) DEFAULT 0.0 NOT NULL,
+    is_tax_exempt boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     invoice_date date NOT NULL,
     po_num character varying,
-    options hstore DEFAULT ''::hstore,
+    notes text,
+    options jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -526,13 +566,14 @@ CREATE TABLE skr_sales_orders (
     shipping_address_id integer NOT NULL,
     billing_address_id integer NOT NULL,
     terms_id integer NOT NULL,
+    is_tax_exempt boolean DEFAULT false NOT NULL,
     order_date date NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     ship_partial boolean DEFAULT false NOT NULL,
     po_num character varying,
     notes text,
-    options hstore DEFAULT ''::hstore,
+    options jsonb DEFAULT '{}'::jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -572,6 +613,7 @@ CREATE TABLE skr_skus (
     default_uom_code character varying NOT NULL,
     code character varying NOT NULL,
     description character varying NOT NULL,
+    is_discontinued boolean DEFAULT false NOT NULL,
     is_other_charge boolean DEFAULT false NOT NULL,
     does_track_inventory boolean DEFAULT false NOT NULL,
     can_backorder boolean DEFAULT false NOT NULL,
@@ -595,7 +637,7 @@ CREATE VIEW skr_inv_details AS
     cust.code AS customer_code,
     cust.name AS customer_name,
     ba.name AS bill_addr_name,
-    COALESCE(ttls.total, 0.0) AS total,
+    COALESCE(ttls.total, 0.0) AS invoice_total,
     COALESCE(ttls.num_lines, (0)::bigint) AS num_lines,
     COALESCE(ttls.other_charge_total, (0)::numeric) AS total_other_charge_amount,
     (COALESCE(ttls.total, 0.0) - COALESCE(ttls.other_charge_total, 0.0)) AS subtotal_amount
@@ -1075,6 +1117,7 @@ CREATE TABLE skr_vendors (
     terms_id integer NOT NULL,
     gl_payables_account_id integer NOT NULL,
     gl_freight_account_id integer NOT NULL,
+    open_balance numeric(15,2) DEFAULT 0.0,
     code character varying NOT NULL,
     hash_code character varying NOT NULL,
     name character varying NOT NULL,
@@ -1150,6 +1193,7 @@ CREATE TABLE skr_so_lines (
     qty_invoiced integer DEFAULT 0 NOT NULL,
     qty_canceled integer DEFAULT 0 NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
+    options jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -1379,6 +1423,44 @@ ALTER SEQUENCE skr_so_lines_id_seq OWNED BY skr_so_lines.id;
 
 
 --
+-- Name: skr_time_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_time_entries (
+    id integer NOT NULL,
+    customer_project_id integer NOT NULL,
+    lanes_user_id integer NOT NULL,
+    is_invoiced boolean DEFAULT false NOT NULL,
+    start_at timestamp without time zone NOT NULL,
+    end_at timestamp without time zone NOT NULL,
+    description text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    created_by_id integer NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    updated_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_time_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_time_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_time_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_time_entries_id_seq OWNED BY skr_time_entries.id;
+
+
+--
 -- Name: skr_uoms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1543,6 +1625,13 @@ ALTER TABLE ONLY lanes_users ALTER COLUMN id SET DEFAULT nextval('lanes_users_id
 --
 
 ALTER TABLE ONLY skr_addresses ALTER COLUMN id SET DEFAULT nextval('skr_addresses_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_customer_projects ALTER COLUMN id SET DEFAULT nextval('skr_customer_projects_id_seq'::regclass);
 
 
 --
@@ -1724,6 +1813,13 @@ ALTER TABLE ONLY skr_so_lines ALTER COLUMN id SET DEFAULT nextval('skr_so_lines_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY skr_time_entries ALTER COLUMN id SET DEFAULT nextval('skr_time_entries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY skr_uoms ALTER COLUMN id SET DEFAULT nextval('skr_uoms_id_seq'::regclass);
 
 
@@ -1769,6 +1865,14 @@ ALTER TABLE ONLY lanes_users
 
 ALTER TABLE ONLY skr_addresses
     ADD CONSTRAINT skr_addresses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_customer_projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_customer_projects
+    ADD CONSTRAINT skr_customer_projects_pkey PRIMARY KEY (id);
 
 
 --
@@ -1980,6 +2084,14 @@ ALTER TABLE ONLY skr_so_lines
 
 
 --
+-- Name: skr_time_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_time_entries
+    ADD CONSTRAINT skr_time_entries_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: skr_uoms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2027,6 +2139,13 @@ CREATE INDEX index_lanes_users_on_role_names ON lanes_users USING gin (role_name
 
 
 --
+-- Name: index_skr_customer_projects_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_customer_projects_on_code ON skr_customer_projects USING btree (code);
+
+
+--
 -- Name: index_skr_customers_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2052,6 +2171,13 @@ CREATE INDEX index_skr_locations_on_code ON skr_locations USING btree (code);
 --
 
 CREATE INDEX index_skr_payment_terms_on_code ON skr_payment_terms USING btree (code);
+
+
+--
+-- Name: index_skr_time_entries_on_lanes_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_time_entries_on_lanes_user_id ON skr_time_entries USING btree (lanes_user_id);
 
 
 --
@@ -2115,6 +2241,30 @@ CREATE INDEX skr_vouchersindx_visible_id ON skr_vouchers USING btree (((visible_
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: fk_rails_a04e857496; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_time_entries
+    ADD CONSTRAINT fk_rails_a04e857496 FOREIGN KEY (lanes_user_id) REFERENCES lanes_users(id);
+
+
+--
+-- Name: skr_customer_projects_customer_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_customer_projects
+    ADD CONSTRAINT skr_customer_projects_customer_id_fk FOREIGN KEY (customer_id) REFERENCES skr_customers(id);
+
+
+--
+-- Name: skr_customer_projects_sku_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_customer_projects
+    ADD CONSTRAINT skr_customer_projects_sku_id_fk FOREIGN KEY (sku_id) REFERENCES skr_skus(id);
 
 
 --
@@ -2550,6 +2700,14 @@ ALTER TABLE ONLY skr_so_lines
 
 
 --
+-- Name: skr_time_entries_customer_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_time_entries
+    ADD CONSTRAINT skr_time_entries_customer_project_id_fk FOREIGN KEY (customer_project_id) REFERENCES skr_customer_projects(id);
+
+
+--
 -- Name: skr_uoms_sku_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2708,4 +2866,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140422024010');
 INSERT INTO schema_migrations (version) VALUES ('20140615031600');
 
 INSERT INTO schema_migrations (version) VALUES ('20150220015108');
+
+INSERT INTO schema_migrations (version) VALUES ('20151022222454');
+
+INSERT INTO schema_migrations (version) VALUES ('20151022231546');
 
