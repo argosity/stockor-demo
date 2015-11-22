@@ -75,33 +75,34 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
               Role to test with:
             </h4>
             <table className="table table-striped table-hover" onClick={@setRoleFromRow}>
-              <tr>
-                <td align="center">
-                  <LC.RadioField writable name="role" value="administrator" model={@model} />
-                </td>
-                <td>Administrator</td>
-                <td>Control ALL THE THINGS</td>
-              </tr><tr>
-                <td align="center">
-                  <LC.RadioField name="role" value="accounting" model={@model} />
-                </td>
-                <td>Accounting</td>
-                <td>Financial information, sets credit limits.</td>
-              </tr><tr>
-                <td align="center">
-                  <LC.RadioField name="role" value="customer_support"
-                    model={@model} />
-                </td>
-                <td>Customer Service</td>
-                <td>Customer and Sales Orders</td>
-              </tr><tr>
-                <td align="center">
-                  <LC.RadioField name="role" value="purchasing" model={@model} />
-                </td>
-                <td>Purchasing</td>
-                <td>Vendors and Purchase Orders</td>
-              </tr>
-
+                <tbody>
+                    <tr>
+                      <td align="center">
+                        <LC.RadioField writable name="role" value="administrator" model={@model} />
+                      </td>
+                      <td>Administrator</td>
+                      <td>Control ALL THE THINGS</td>
+                    </tr><tr>
+                      <td align="center">
+                        <LC.RadioField name="role" value="accounting" model={@model} />
+                      </td>
+                      <td>Accounting</td>
+                      <td>Financial information, sets credit limits.</td>
+                    </tr><tr>
+                      <td align="center">
+                        <LC.RadioField name="role" value="customer_support"
+                          model={@model} />
+                      </td>
+                      <td>Customer Service</td>
+                      <td>Customer and Sales Orders</td>
+                    </tr><tr>
+                      <td align="center">
+                        <LC.RadioField name="role" value="purchasing" model={@model} />
+                      </td>
+                      <td>Purchasing</td>
+                      <td>Vendors and Purchase Orders</td>
+                    </tr>
+                </tbody>
             </table>
 
         </div>
