@@ -168,25 +168,6 @@ CREATE TABLE skr_customer_projects (
 
 
 --
--- Name: skr_customer_projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE skr_customer_projects_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: skr_customer_projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE skr_customer_projects_id_seq OWNED BY skr_customer_projects.id;
-
-
---
 -- Name: skr_customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -210,6 +191,62 @@ CREATE TABLE skr_customers (
     updated_at timestamp without time zone NOT NULL,
     updated_by_id integer NOT NULL
 );
+
+
+--
+-- Name: skr_skus; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_skus (
+    id integer NOT NULL,
+    default_vendor_id integer,
+    gl_asset_account_id integer NOT NULL,
+    default_uom_code character varying NOT NULL,
+    code character varying NOT NULL,
+    description character varying NOT NULL,
+    is_discontinued boolean DEFAULT false NOT NULL,
+    is_other_charge boolean DEFAULT false NOT NULL,
+    does_track_inventory boolean DEFAULT false NOT NULL,
+    can_backorder boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    created_by_id integer NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    updated_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_customer_project_details; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW skr_customer_project_details AS
+ SELECT cp.id AS skr_customer_project_id,
+    c.code AS customer_code,
+    c.name AS customer_description,
+    s.code AS sku_code,
+    s.description AS sku_description
+   FROM ((skr_customer_projects cp
+     JOIN skr_skus s ON ((s.id = cp.sku_id)))
+     JOIN skr_customers c ON ((c.id = cp.customer_id)));
+
+
+--
+-- Name: skr_customer_projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_customer_projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_customer_projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_customer_projects_id_seq OWNED BY skr_customer_projects.id;
 
 
 --
@@ -490,13 +527,14 @@ CREATE TABLE skr_inv_lines (
     sku_loc_id integer NOT NULL,
     pt_line_id integer,
     so_line_id integer,
+    time_entry_id integer,
     price numeric(15,2) NOT NULL,
     sku_code character varying NOT NULL,
     description character varying NOT NULL,
     uom_code character varying NOT NULL,
     uom_size smallint NOT NULL,
     "position" smallint NOT NULL,
-    qty integer NOT NULL,
+    qty numeric(15,2) NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     options jsonb,
     created_at timestamp without time zone NOT NULL,
@@ -517,6 +555,7 @@ CREATE TABLE skr_invoices (
     terms_id integer NOT NULL,
     customer_id integer NOT NULL,
     location_id integer NOT NULL,
+    customer_project_id integer,
     sales_order_id integer,
     pick_ticket_id integer,
     shipping_address_id integer NOT NULL,
@@ -603,28 +642,6 @@ CREATE TABLE skr_sku_locs (
 
 
 --
--- Name: skr_skus; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE skr_skus (
-    id integer NOT NULL,
-    default_vendor_id integer,
-    gl_asset_account_id integer NOT NULL,
-    default_uom_code character varying NOT NULL,
-    code character varying NOT NULL,
-    description character varying NOT NULL,
-    is_discontinued boolean DEFAULT false NOT NULL,
-    is_other_charge boolean DEFAULT false NOT NULL,
-    does_track_inventory boolean DEFAULT false NOT NULL,
-    can_backorder boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    created_by_id integer NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL
-);
-
-
---
 -- Name: skr_inv_details; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -647,10 +664,10 @@ CREATE VIEW skr_inv_details AS
      LEFT JOIN skr_sales_orders so ON ((so.id = inv.sales_order_id)))
      LEFT JOIN skr_pick_tickets pt ON ((pt.id = inv.pick_ticket_id)))
      LEFT JOIN ( SELECT ivl.invoice_id,
-            sum(((ivl.qty)::numeric * ivl.price)) AS total,
+            sum((ivl.qty * ivl.price)) AS total,
             sum(
                 CASE
-                    WHEN s.is_other_charge THEN ((ivl.qty)::numeric * ivl.price)
+                    WHEN s.is_other_charge THEN (ivl.qty * ivl.price)
                     ELSE (0)::numeric
                 END) AS other_charge_total,
             count(ivl.*) AS num_lines
@@ -969,7 +986,7 @@ CREATE TABLE skr_pt_lines (
     bin character varying,
     uom_size smallint NOT NULL,
     "position" smallint NOT NULL,
-    qty integer DEFAULT 0 NOT NULL,
+    qty numeric(15,2) NOT NULL,
     qty_invoiced integer DEFAULT 0 NOT NULL,
     is_complete boolean DEFAULT false NOT NULL
 );
@@ -1187,11 +1204,11 @@ CREATE TABLE skr_so_lines (
     uom_code character varying NOT NULL,
     uom_size smallint NOT NULL,
     "position" smallint NOT NULL,
-    qty integer DEFAULT 0 NOT NULL,
-    qty_allocated integer DEFAULT 0 NOT NULL,
-    qty_picking integer DEFAULT 0 NOT NULL,
-    qty_invoiced integer DEFAULT 0 NOT NULL,
-    qty_canceled integer DEFAULT 0 NOT NULL,
+    qty numeric(15,2) NOT NULL,
+    qty_allocated numeric(15,2) DEFAULT 0 NOT NULL,
+    qty_picking numeric(15,2) DEFAULT 0 NOT NULL,
+    qty_invoiced numeric(15,2) DEFAULT 0 NOT NULL,
+    qty_canceled numeric(15,2) DEFAULT 0 NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     options jsonb,
     created_at timestamp without time zone NOT NULL,
@@ -1208,7 +1225,7 @@ CREATE TABLE skr_so_lines (
 CREATE VIEW skr_sku_qty_details AS
  SELECT s.id AS sku_id,
     sl_ttl.qty AS qty_on_hand,
-    COALESCE(sol_ttl.qty, (0)::bigint) AS qty_on_orders,
+    COALESCE(sol_ttl.qty, (0)::numeric) AS qty_on_orders,
     COALESCE(pol_ttl.qty, (0)::bigint) AS qty_incoming
    FROM (((skr_skus s
      JOIN ( SELECT sum(sl.qty) AS qty,
@@ -1216,7 +1233,7 @@ CREATE VIEW skr_sku_qty_details AS
            FROM skr_sku_locs sl
           GROUP BY sl.sku_id) sl_ttl ON ((sl_ttl.sku_id = s.id)))
      LEFT JOIN ( SELECT s_1.id AS sku_id,
-            sum(((sol.qty - sol.qty_canceled) * sol.uom_size)) AS qty
+            sum(((sol.qty - sol.qty_canceled) * (sol.uom_size)::numeric)) AS qty
            FROM (((skr_so_lines sol
              JOIN skr_sales_orders so ON (((so.id = sol.sales_order_id) AND (so.state <> ALL (ARRAY[5, 10])))))
              JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
@@ -1317,10 +1334,10 @@ ALTER SEQUENCE skr_skus_id_seq OWNED BY skr_skus.id;
 CREATE VIEW skr_so_allocation_details AS
  SELECT sol.sales_order_id AS skr_sales_order_id,
     count(*) AS number_of_lines,
-    sum(((sol.qty_allocated)::numeric * sol.price)) AS allocated_total,
+    sum((sol.qty_allocated * sol.price)) AS allocated_total,
     sum(
         CASE
-            WHEN (((sol.qty_allocated - sol.qty_canceled) - sol.qty_picking) > 0) THEN 1
+            WHEN (((sol.qty_allocated - sol.qty_canceled) - sol.qty_picking) > (0)::numeric) THEN 1
             ELSE 0
         END) AS number_of_lines_allocated,
     sum(
@@ -1334,7 +1351,7 @@ CREATE VIEW skr_so_allocation_details AS
   GROUP BY sol.sales_order_id
  HAVING (sum(
         CASE
-            WHEN (((sol.qty_allocated - sol.qty_canceled) - sol.qty_picking) > 0) THEN 1
+            WHEN (((sol.qty_allocated - sol.qty_canceled) - sol.qty_picking) > (0)::numeric) THEN 1
             ELSE 0
         END) > 0);
 
@@ -1352,7 +1369,7 @@ CREATE VIEW skr_so_dailly_sales_history AS
    FROM (generate_series(0, 120, 1) days_ago(days_ago)
      LEFT JOIN ( SELECT count(DISTINCT sol.sales_order_id) AS order_count,
             count(*) AS line_count,
-            sum((sol.price * (sol.qty)::numeric)) AS total,
+            sum((sol.price * sol.qty)) AS total,
             date_trunc('day'::text, so.created_at) AS so_date
            FROM (skr_so_lines sol
              JOIN skr_sales_orders so ON ((sol.sales_order_id = so.id)))
@@ -1380,20 +1397,20 @@ CREATE VIEW skr_so_details AS
      JOIN skr_customers cust ON ((cust.id = so.customer_id)))
      JOIN skr_addresses addr ON ((addr.id = so.billing_address_id)))
      LEFT JOIN ( SELECT sol.sales_order_id,
-            sum(((sol.qty)::numeric * sol.price)) AS total,
+            sum((sol.qty * sol.price)) AS total,
             sum(
                 CASE
-                    WHEN s.is_other_charge THEN ((sol.qty)::numeric * sol.price)
+                    WHEN s.is_other_charge THEN (sol.qty * sol.price)
                     ELSE (0)::numeric
                 END) AS other_charge_total,
             sum(
                 CASE
-                    WHEN ((sol.sku_code)::text = 'SHIP'::text) THEN ((sol.qty)::numeric * sol.price)
+                    WHEN ((sol.sku_code)::text = 'SHIP'::text) THEN (sol.qty * sol.price)
                     ELSE (0)::numeric
                 END) AS shipping_charge_total,
             sum(
                 CASE
-                    WHEN ((sol.sku_code)::text = 'TAX'::text) THEN ((sol.qty)::numeric * sol.price)
+                    WHEN ((sol.sku_code)::text = 'TAX'::text) THEN (sol.qty * sol.price)
                     ELSE (0)::numeric
                 END) AS tax_charge_total,
             count(sol.*) AS num_lines
@@ -2364,6 +2381,14 @@ ALTER TABLE ONLY skr_inv_lines
 
 
 --
+-- Name: skr_inv_lines_time_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_inv_lines
+    ADD CONSTRAINT skr_inv_lines_time_entry_id_fk FOREIGN KEY (time_entry_id) REFERENCES skr_time_entries(id);
+
+
+--
 -- Name: skr_inventory_adjustments_location_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2393,6 +2418,14 @@ ALTER TABLE ONLY skr_invoices
 
 ALTER TABLE ONLY skr_invoices
     ADD CONSTRAINT skr_invoices_customer_id_fk FOREIGN KEY (customer_id) REFERENCES skr_customers(id);
+
+
+--
+-- Name: skr_invoices_customer_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_invoices
+    ADD CONSTRAINT skr_invoices_customer_project_id_fk FOREIGN KEY (customer_project_id) REFERENCES skr_customer_projects(id);
 
 
 --
@@ -2845,6 +2878,10 @@ INSERT INTO schema_migrations (version) VALUES ('20140327202207');
 
 INSERT INTO schema_migrations (version) VALUES ('20140327202209');
 
+INSERT INTO schema_migrations (version) VALUES ('20140327214000');
+
+INSERT INTO schema_migrations (version) VALUES ('20140327223002');
+
 INSERT INTO schema_migrations (version) VALUES ('20140327224000');
 
 INSERT INTO schema_migrations (version) VALUES ('20140327224002');
@@ -2867,7 +2904,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140615031600');
 
 INSERT INTO schema_migrations (version) VALUES ('20150220015108');
 
-INSERT INTO schema_migrations (version) VALUES ('20151022222454');
-
-INSERT INTO schema_migrations (version) VALUES ('20151022231546');
+INSERT INTO schema_migrations (version) VALUES ('20151121211323');
 
