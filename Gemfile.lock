@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 46b0a33eda2de4aed873cb8c839cbe455da637b1
+  revision: 4c5ccf558a87f1c3b1f11e1e080e0c408e4a3152
   branch: master
   specs:
     lanes (0.1.9.5)
@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: 8a77fb570982b1c610fe3cd8b2e478985794cfbd
+  revision: c19f5f1e0274f072732def241299f102ac3c7180
   branch: master
   specs:
     stockor (0.1.9)
@@ -192,7 +192,7 @@ GEM
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
-    sprockets (3.4.0)
+    sprockets (3.4.1)
       rack (> 1, < 3)
     sprockets-helpers (1.2.1)
       sprockets (>= 2.2)
