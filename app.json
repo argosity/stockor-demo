@@ -1,0 +1,29 @@
+{
+  "name": "Stockor Demo",
+  "description": "This app demonstrates the Stockor web application.",
+  "keywords": [
+      "invoice",
+      "erp",
+      "productivity"
+  ],
+  "website": "http://stockor.org/",
+  "repository": "https://github.com/argosity/stockor",
+  "logo": "http://stockor.org/images/logo.png",
+  "success_url": "/",
+  "scripts": {
+    "postdeploy": "bundle exec lanes db migrate && bundle exec lanes db seed && bundle exec rake demo:data"
+  },
+  "env": {},
+  "image": "heroku/ruby",
+  "addons": [
+    "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "git://github.com/syphar/heroku-buildpack-tex.git"
+    }, {
+      "url": "git://github.com/heroku/heroku-buildpack-ruby.git"
+    }
+  ]
+
+}
