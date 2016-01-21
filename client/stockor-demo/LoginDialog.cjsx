@@ -2,20 +2,18 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
 
     statics:
         show: (viewport, props = {}) ->
-
             tester = new StockorDemo.Tester(name: "Joe Cool", email: "Joe@Test.com")
-            handler = new _.Promise( (onOk, onCancel) ->
-                viewport.modalProps = _.extend({}, props,
-                    title: 'View Stockor Demo'
-                    onCancel: onCancel, onOk: onOk, show: true,
-                    buttons: [{ title: 'Ok', style: 'primary'}]
-                    body: ->
-                        <StockorDemo.LoginDialog model={tester} attemptLogin={onOk} />
+            saveTester = (dlg) ->
+                tester.save().then -> dlg.hide()
+
+            viewport.modalProps = _.extend({}, props,
+                title: 'View Stockor Demo'
+                onCancel: null, onOk: saveTester, show: true,
+                buttons: [{ title: 'Login', style: 'primary', eventKey: 'ok'}]
+                body: (props) ->
+                    <StockorDemo.LoginDialog
+                        {...props} model={tester} attemptLogin={saveTester} />
                 )
-            )
-            handler.then (dlg) ->
-                tester.save(ignoreErrors: true).then ->
-                    _.extend(viewport.modalProps, {show: _.any(tester.errors)})
 
     mixins: [
         Lanes.React.Mixins.RelayEditingState
@@ -54,6 +52,7 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
                 <BS.Col sm={12} md={6}>
                     <LC.Input
                         model={@model}
+                        onEnter={=> @props.attemptLogin(@props.modal)}
                         autoFocus
                         name="name"
                         label='Name'
@@ -63,6 +62,7 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
                 <BS.Col sm={12} md={6}>
                     <LC.Input
                         model={@model}
+                        onEnter={=> @props.attemptLogin(@props.modal)}
                         name="email"
                         type='email'
                         label='Email'
