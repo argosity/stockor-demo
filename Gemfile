@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.3.0'
 
 gem "lanes",   github: 'argosity/lanes',   branch: 'master'
 gem "stockor", github: 'argosity/stockor', branch: 'master'
