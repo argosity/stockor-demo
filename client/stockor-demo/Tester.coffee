@@ -1,6 +1,6 @@
 class StockorDemo.Tester extends Lanes.Models.Base
 
-    api_path: "demo-user"
+
     props:
         name:   'string'
         email:  'string'
@@ -8,6 +8,7 @@ class StockorDemo.Tester extends Lanes.Models.Base
         user:   'object'
         role:   type: 'string', default: 'administrator'
 
+    api_path: "stockor-demo/demo-user"
 
     save: ->
         super.then =>
