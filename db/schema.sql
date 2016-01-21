@@ -794,12 +794,12 @@ CREATE TABLE skr_locations (
     address_id integer NOT NULL,
     is_active boolean DEFAULT true NOT NULL,
     gl_branch_code character varying(2) DEFAULT '01'::character varying NOT NULL,
+    logo character varying,
+    options jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL,
-    logo character varying,
-    options jsonb
+    updated_by_id integer NOT NULL
 );
 
 
@@ -1636,6 +1636,7 @@ ALTER SEQUENCE skr_vouchers_id_seq OWNED BY skr_vouchers.id;
 
 CREATE TABLE system_settings (
     id integer NOT NULL,
+    logo character varying,
     settings jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
@@ -2907,8 +2908,6 @@ INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('20120110142845');
 
-INSERT INTO schema_migrations (version) VALUES ('20140110224306');
-
 INSERT INTO schema_migrations (version) VALUES ('20140202185309');
 
 INSERT INTO schema_migrations (version) VALUES ('20140202193316');
@@ -2918,6 +2917,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140202193318');
 INSERT INTO schema_migrations (version) VALUES ('20140202193319');
 
 INSERT INTO schema_migrations (version) VALUES ('20140202193700');
+
+INSERT INTO schema_migrations (version) VALUES ('20140202194700');
 
 INSERT INTO schema_migrations (version) VALUES ('20140213040608');
 
