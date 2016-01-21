@@ -8,7 +8,9 @@ module StockorDemo
             def initialize( count )
                 super()
 
-                @gl = Skr::GlAccount.default_for(:ap)
+                @gl_payables = Skr::GlAccount.default_for(:ap)
+                @gl_friehgt  = Skr::GlAccount.where(number: '6420').first!
+
                 ensure_record_count(count) do
                     begin
                         name = FC.name
@@ -30,7 +32,8 @@ module StockorDemo
                           :shipping_address       => DemoData.make_address(name),
                           :terms                  => DemoData.terms.random,
                           :notes                  => FC.catch_phrase,
-                          :gl_payables_account    => @gl
+                          :gl_payables_account    => @gl_payables,
+                          :gl_freight_account     => @gl_freight
                       })
             end
 
