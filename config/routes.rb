@@ -19,6 +19,4 @@ Lanes::API.routes.for_extension 'stockor-demo' do
 
     end
 
-    root_view :lanes_root_view
-
 end

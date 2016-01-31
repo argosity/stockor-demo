@@ -165,7 +165,8 @@ CREATE TABLE skr_customer_projects (
     rates jsonb,
     options jsonb,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    name character varying
 );
 
 
@@ -1487,7 +1488,8 @@ CREATE TABLE skr_time_entries (
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL
+    updated_by_id integer NOT NULL,
+    options jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 

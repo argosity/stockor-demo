@@ -47,7 +47,9 @@ module StockorDemo
             end
 
             def create(attributes)
-                model.create!(attributes)
+                unless model.create(attributes)
+                    binding.pry
+                end
             end
 
             # def update( id, attrs )

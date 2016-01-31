@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 5b7c67cc9bb74f25915b039e078e7650f0ed6f25
+  revision: 364ed2e1f8b2ff4a0be58b481763622c324ee5b2
   branch: master
   specs:
     lanes (0.1.9.5)
@@ -8,7 +8,6 @@ GIT
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
       carrierwave (~> 0.10.0)
-      closure-compiler (~> 1.1)
       coffee-react (~> 3.0)
       coffee-script (~> 2.3)
       compass-import-once (~> 1.0)
@@ -27,8 +26,8 @@ GIT
       mocha (~> 1.1)
       oj (~> 2.1)
       pg (~> 0.17)
+      rack-protection (~> 1.5)
       rack-test (~> 0.6)
-      rack_csrf (~> 2.5)
       rake (~> 10.0)
       require_all (~> 1.3)
       resque (~> 1.25)
@@ -38,16 +37,16 @@ GIT
       sprockets (~> 3.0)
       sprockets-helpers (~> 1.2)
       thor (~> 0.19)
-      yui-compressor (~> 0.12)
+      uglifier (~> 2.7)
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: d755d43efc19f23b478f8288b7c81920690e0f34
+  revision: 9fcf5bce73ca526d2d84736203d44ce62811e816
   branch: master
   specs:
     stockor (0.1.9)
       aasm (~> 4.1)
-      erb_latex (~> 0.2)
+      erb_latex (= 0.3)
       lanes
       ruby-freshbooks
 
@@ -61,7 +60,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.3.2)
-    aasm (4.7.0)
+    aasm (4.9.0)
     activejob (4.2.5.1)
       activesupport (= 4.2.5.1)
       globalid (>= 0.3.0)
@@ -81,6 +80,8 @@ GEM
     addressable (2.4.0)
     arel (6.0.3)
     bcrypt (3.1.10)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     builder (3.2.2)
     capistrano (3.4.0)
       i18n
@@ -101,8 +102,7 @@ GEM
       mime-types (>= 1.16)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
-    closure-compiler (1.1.12)
-    coderay (1.1.0)
+    coderay (1.1.1)
     coffee-react (3.4.0)
       execjs
     coffee-script (2.4.1)
@@ -111,10 +111,11 @@ GEM
     coffee-script-source (1.10.0)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    concurrent-ruby (1.0.0)
+    concurrent-ruby (1.0.1)
     crass (1.0.2)
-    erb_latex (0.2.0)
-    excon (0.45.4)
+    debug_inspector (0.0.2)
+    erb_latex (0.3.0)
+    excon (0.46.0)
     execjs (2.6.0)
     faker (1.6.1)
       i18n (~> 0.5)
@@ -166,7 +167,7 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.35.0)
+    fog-core (1.36.0)
       builder
       excon (~> 0.45)
       formatador (~> 0.2)
@@ -208,7 +209,7 @@ GEM
     fog-serverlove (0.1.2)
       fog-core
       fog-json
-    fog-softlayer (1.0.3)
+    fog-softlayer (1.1.0)
       fog-core
       fog-json
     fog-storm_on_demand (0.1.1)
@@ -262,7 +263,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     inflecto (0.0.2)
-    ipaddress (0.8.2)
+    ipaddress (0.8.3)
     jasmine (2.4.0)
       jasmine-core (~> 2.4)
       phantomjs
@@ -273,9 +274,9 @@ GEM
       redis (~> 3.2)
       redis-namespace
     json (1.8.3)
-    listen (3.0.5)
+    listen (3.0.6)
       rb-fsevent (>= 0.9.3)
-      rb-inotify (>= 0.9)
+      rb-inotify (>= 0.9.7)
     lumberjack (1.0.10)
     message_bus (2.0.0.beta.2)
       rack (>= 1.1.3)
@@ -284,7 +285,7 @@ GEM
     method_source (0.8.2)
     mime-types (3.0)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2015.1120)
+    mime-types-data (3.2016.0221)
     mini_magick (4.3.6)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
@@ -295,7 +296,7 @@ GEM
     mono_logger (1.1.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
-    nenv (0.2.0)
+    nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.2)
@@ -306,7 +307,7 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    oj (2.14.3)
+    oj (2.14.6)
     pg (0.18.4)
     phantomjs (2.1.1.0)
     pry (0.10.3)
@@ -315,17 +316,18 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
+    pry-stack_explorer (0.4.9.2)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
     puma (2.16.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rack_csrf (2.5.0)
-      rack (>= 1.1.0)
     rake (10.5.0)
     rb-fsevent (0.9.7)
-    rb-inotify (0.9.5)
+    rb-inotify (0.9.7)
       ffi (>= 0.5.0)
     rbvmomi (1.8.2)
       builder
@@ -369,10 +371,12 @@ GEM
     trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uglifier (2.7.2)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
     xml-simple (1.1.5)
-    yui-compressor (0.12.0)
 
 PLATFORMS
   ruby
@@ -385,6 +389,7 @@ DEPENDENCIES
   hashie
   lanes!
   pry-nav
+  pry-stack_explorer
   puma
   rake
   stockor!

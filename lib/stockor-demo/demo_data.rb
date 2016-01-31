@@ -10,12 +10,13 @@ require_relative 'demo_data/customers'
 require_relative 'demo_data/skus'
 require_relative 'demo_data/customer_projects'
 require_relative 'demo_data/time_entries'
+require_relative 'demo_data/sales_orders'
+require_relative 'demo_data/invoices'
 
 # require_relative 'demo_data/item_categories'
 # require_relative 'demo_data/items'
 # require_relative 'demo_data/purchase_orders'
 # require_relative 'demo_data/inventory_adjustments'
-# require_relative 'demo_data/sales_orders'
 # require_relative 'stockor_client'
 require 'active_support/core_ext/module/attribute_accessors'
 require 'faker'
@@ -55,7 +56,9 @@ module StockorDemo
                 self.vendors           = Vendors.new( 12 )
                 self.skus              = Skus.new( 35 )
                 self.projects          = CustomerProjects.new( 10 )
-                self.time_entries      = TimeEntries.new( 60 )
+                self.time_entries      = TimeEntries.new( 160 )
+                self.sales_orders      = SalesOrders.new( 120 )
+                self.sales_orders      = Invoices.new( 120 )
 
                 # self.payment_processor = PaymentProcessor.new
                 # self.shipping_setting  = ShippingSetting.new
@@ -63,7 +66,6 @@ module StockorDemo
 
                 # self.customers         = Customers.new( 220 )
                 # self.purchase_orders   = PurchaseOrders.new
-                # self.sales_orders      = SalesOrders.new( 200 )
                 # self.item_categories   = ItemCategories.new( 6 )
                 # self.items             = Items.new( 90 )
                 # self.adjustment        = InventoryAdjustments.new
