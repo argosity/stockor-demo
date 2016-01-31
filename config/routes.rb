@@ -2,8 +2,6 @@ require 'stockor-demo'
 
 Lanes::API.routes.for_extension 'stockor-demo' do
 
-    root { erb :lanes_root_view }
-
     # It's a demo - we don't worry about security
     # find or create a user with the email and role they wanted
     # and then log them in with it
@@ -21,5 +19,6 @@ Lanes::API.routes.for_extension 'stockor-demo' do
 
     end
 
+    root_view :lanes_root_view
 
 end
