@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 364ed2e1f8b2ff4a0be58b481763622c324ee5b2
+  revision: 5fc30a2400934026935e5b02081d3543de42b4b6
   branch: master
   specs:
     lanes (0.1.9.5)
@@ -41,13 +41,14 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: 9fcf5bce73ca526d2d84736203d44ce62811e816
+  revision: 1b44a11ba68f47325985a4498116eda9b8a9421c
   branch: master
   specs:
     stockor (0.1.9)
       aasm (~> 4.1)
       erb_latex (= 0.3)
       lanes
+      numbers_in_words (~> 0.4.0)
       ruby-freshbooks
 
 PATH
@@ -61,17 +62,17 @@ GEM
   specs:
     CFPropertyList (2.3.2)
     aasm (4.9.0)
-    activejob (4.2.5.1)
-      activesupport (= 4.2.5.1)
+    activejob (4.2.5.2)
+      activesupport (= 4.2.5.2)
       globalid (>= 0.3.0)
-    activemodel (4.2.5.1)
-      activesupport (= 4.2.5.1)
+    activemodel (4.2.5.2)
+      activesupport (= 4.2.5.2)
       builder (~> 3.1)
-    activerecord (4.2.5.1)
-      activemodel (= 4.2.5.1)
-      activesupport (= 4.2.5.1)
+    activerecord (4.2.5.2)
+      activemodel (= 4.2.5.2)
+      activesupport (= 4.2.5.2)
       arel (~> 6.0)
-    activesupport (4.2.5.1)
+    activesupport (4.2.5.2)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -115,9 +116,9 @@ GEM
     crass (1.0.2)
     debug_inspector (0.0.2)
     erb_latex (0.3.0)
-    excon (0.46.0)
+    excon (0.47.0)
     execjs (2.6.0)
-    faker (1.6.1)
+    faker (1.6.3)
       i18n (~> 0.5)
     fastimage (1.8.1)
       addressable (~> 2.3, >= 2.3.5)
@@ -158,7 +159,7 @@ GEM
     fog-atmos (0.1.0)
       fog-core
       fog-xml
-    fog-aws (0.8.1)
+    fog-aws (0.9.0)
       fog-core (~> 1.27)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
@@ -185,7 +186,7 @@ GEM
     fog-json (1.0.2)
       fog-core (~> 1.0)
       multi_json (~> 1.10)
-    fog-local (0.2.1)
+    fog-local (0.3.0)
       fog-core (~> 1.27)
     fog-powerdns (0.1.1)
       fog-core (~> 1.27)
@@ -307,6 +308,8 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    numbers_in_words (0.4.0)
+      activesupport
     oj (2.14.6)
     pg (0.18.4)
     phantomjs (2.1.1.0)
@@ -319,7 +322,7 @@ GEM
     pry-stack_explorer (0.4.9.2)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    puma (2.16.0)
+    puma (3.0.2)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
