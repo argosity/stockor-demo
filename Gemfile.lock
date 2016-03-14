@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: f6c8cef51df38c158124906a3c7e59868d54099b
+  revision: 6bd93a25b39181ff24b144565337986358398532
   branch: master
   specs:
     lanes (0.1.9.5)
@@ -40,7 +40,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: 6b1bd0566130b6840413d7b0a4d044da874e3537
+  revision: bac4057ce85a09cff43406fdf05d0489e92be6d0
   branch: master
   specs:
     stockor (0.1.9)
@@ -52,7 +52,7 @@ GIT
 
 GIT
   remote: git://github.com/nathanstitt/message_bus.git
-  revision: c0d38d1c260f9aeec17c37b3ea2ac5d55fca462c
+  revision: e02db3e24d5569637049f3ee916fcd74fc2b7a8e
   branch: xmlhttprequest
   specs:
     message_bus (2.0.0.beta.5)
