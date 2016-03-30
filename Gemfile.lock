@@ -40,7 +40,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: bac4057ce85a09cff43406fdf05d0489e92be6d0
+  revision: 9034978e7c4cf46db1939952d63cd5cfb9b379ed
   branch: master
   specs:
     stockor (0.1.9)
@@ -52,8 +52,8 @@ GIT
 
 GIT
   remote: git://github.com/nathanstitt/message_bus.git
-  revision: a349724cdb932d4205d24d20d520b3d5caef21d8
-  branch: xmlhttprequest
+  revision: 1849eb3805de22a016fa2ad8af6e758fd815fb86
+  branch: master
   specs:
     message_bus (2.0.0.beta.5)
       rack (>= 1.1.3)
@@ -123,7 +123,7 @@ GEM
     crass (1.0.2)
     debug_inspector (0.0.2)
     erb_latex (0.3.0)
-    excon (0.48.0)
+    excon (0.49.0)
     execjs (2.6.0)
     faker (1.6.3)
       i18n (~> 0.5)
@@ -314,7 +314,7 @@ GEM
       shellany (~> 0.0)
     numbers_in_words (0.4.0)
       activesupport
-    oj (2.14.6)
+    oj (2.15.0)
     pg (0.18.4)
     phantomjs (2.1.1.0)
     pry (0.10.3)
@@ -357,7 +357,7 @@ GEM
       crass (~> 1.0.1)
       nokogiri (>= 1.4.4)
       nokogumbo (= 1.2.0)
-    sass (3.4.21)
+    sass (3.4.22)
     shellany (0.0.1)
     sinatra (1.4.7)
       rack (~> 1.5)
