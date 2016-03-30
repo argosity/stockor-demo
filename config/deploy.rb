@@ -1,6 +1,6 @@
 set :application, 'stockor'
 set :repo_url, 'git@github.com:argosity/stockor-demo-access.git'
-
+set :passenger_restart_with_touch, true
 set :deploy_to, '/srv/www/stockor-demo'
 
 namespace :deploy do

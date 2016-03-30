@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 60624bf87f593efcc6adfb0f3ae7c355fec831a5
+  revision: a2da5de9e4cb6c110c1c85149e598f7c302ff565
   branch: master
   specs:
     lanes (0.1.9.5)
