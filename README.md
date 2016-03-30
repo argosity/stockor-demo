@@ -2,8 +2,7 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-Extension to the Lanes framework to provide Stockor
-with demo login support.
+Extension to Stockor that replaces the login menu with choices from pre-defined roles.
 
 It modifies the login user experience so users can choose what role they
 would like to use when testing Stockor.
