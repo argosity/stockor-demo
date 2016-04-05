@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-gem "message_bus", github: "nathanstitt/message_bus", branch: 'master'
-
 gem "lanes",   github: 'argosity/lanes',   branch: 'master'
 gem "stockor", github: 'argosity/stockor', branch: 'master'
 gem "pry-nav"
