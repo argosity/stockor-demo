@@ -41,7 +41,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: 07299790aa048d3110753c74843d1cda790cc6ed
+  revision: 4a537fedfa28f34e29b0b870834409f793b91d5a
   branch: master
   specs:
     stockor (0.2)
@@ -321,7 +321,7 @@ GEM
     pry-stack_explorer (0.4.9.2)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    puma (3.2.0)
+    puma (3.3.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
