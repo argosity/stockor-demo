@@ -1,1 +1,1 @@
-server 'next-gen.stockor.com', user: 'stockor', roles: %w{web app db}
+server 'demo.stockor.com', user: 'stockor', roles: %w{web app db}
