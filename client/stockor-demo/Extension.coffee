@@ -12,5 +12,5 @@ class StockorDemo.Extension extends Lanes.Extensions.Base
     onInitialized: ->
         # Overwrite the function responsible for creating the login dialog
         # with a function that returns our own dialog
-        Lanes.Access.LoginDialog.instance = ->
-            StockorDemo.LoginDialog
+        # Lanes.Access.LoginDialog.instance = ->
+        #     StockorDemo.LoginDialog
