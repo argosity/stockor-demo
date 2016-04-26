@@ -43,6 +43,8 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
     onHide: Lanes.emptyFn
 
     render: ->
+        roleProps = {name: "role", model: @model, fieldOnly: true}
+
         <div className='modal-body tester-login'>
             <p className="lead">
               We will only send you a single follow-up email.
@@ -78,26 +80,25 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
                 <tbody>
                     <tr>
                       <td align="center">
-                        <LC.RadioField writable name="role" value="administrator" model={@model} />
+                        <LC.RadioField writable  {...roleProps} value="administrator" />
                       </td>
                       <td>Administrator</td>
                       <td>Control ALL THE THINGS</td>
                     </tr><tr>
                       <td align="center">
-                        <LC.RadioField name="role" value="accounting" model={@model} />
+                        <LC.RadioField {...roleProps} value="accounting" />
                       </td>
                       <td>Accounting</td>
                       <td>Financial information, sets credit limits.</td>
                     </tr><tr>
                       <td align="center">
-                        <LC.RadioField name="role" value="customer_support"
-                          model={@model} />
+                        <LC.RadioField {...roleProps} value="customer_support" />
                       </td>
                       <td>Customer Service</td>
                       <td>Customer and Sales Orders</td>
                     </tr><tr>
                       <td align="center">
-                        <LC.RadioField name="role" value="purchasing" model={@model} />
+                        <LC.RadioField {...roleProps} value="purchasing" />
                       </td>
                       <td>Purchasing</td>
                       <td>Vendors and Purchase Orders</td>
