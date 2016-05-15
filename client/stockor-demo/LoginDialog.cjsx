@@ -2,9 +2,10 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
 
     statics:
         show: (viewport, props = {}) ->
-            tester = new StockorDemo.Tester(name: "Joe Cool", email: "Joe@Test.com")
+            tester = new StockorDemo.Tester
             saveTester = (dlg) ->
-                tester.save().then -> dlg.hide()
+                tester.save().then ->
+                    dlg.hide() if _.isEmpty tester.errors
 
             viewport.modalProps = _.extend({}, props,
                 title: 'View Stockor Demo'
@@ -44,33 +45,31 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
 
     render: ->
         roleProps = {name: "role", model: @model, fieldOnly: true}
-
         <div className='modal-body tester-login'>
+            <LC.ErrorDisplay model={@props.model} />
             <p className="lead">
               We will only send you a single follow-up email.
             </p>
-            {@warning() if @state.hasError}
             <BS.Row>
-                <BS.Col sm={12} md={6}>
-                    <LC.Input
-                        model={@model}
-                        onEnter={=> @props.attemptLogin(@props.modal)}
-                        autoFocus
-                        name="name"
-                        label='Name'
-                        placeholder='Your Name'
-                    />
-                </BS.Col>
-                <BS.Col sm={12} md={6}>
-                    <LC.Input
-                        model={@model}
-                        onEnter={=> @props.attemptLogin(@props.modal)}
-                        name="email"
-                        type='email'
-                        label='Email'
-                        placeholder='Enter Email Address'
-                    />
-                </BS.Col>
+                <LC.Input
+                    sm={12} md={6}
+                    model={@model}
+                    onEnter={=> @props.attemptLogin(@props.modal)}
+                    autoFocus
+                    name="name"
+                    label='Name'
+                    placeholder='Your Name'
+                />
+
+                <LC.Input
+                    sm={12} md={6}
+                    model={@model}
+                    onEnter={=> @props.attemptLogin(@props.modal)}
+                    name="email"
+                    type='email'
+                    label='Email'
+                    placeholder='Enter Email Address'
+                />
             </BS.Row>
 
             <h4>
@@ -83,7 +82,8 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
                         <LC.RadioField writable  {...roleProps} value="administrator" />
                       </td>
                       <td>Administrator</td>
-                      <td>Control ALL THE THINGS</td>
+                      <td>Con
+                      trol ALL THE THINGS</td>
                     </tr><tr>
                       <td align="center">
                         <LC.RadioField {...roleProps} value="accounting" />
