@@ -55,10 +55,10 @@ module StockorDemo
                 self.customers         = Customers.new( 15 )
                 self.vendors           = Vendors.new( 12 )
                 self.skus              = Skus.new( 35 )
-                self.projects          = CustomerProjects.new( 10 )
-                self.time_entries      = TimeEntries.new( 160 )
-                self.sales_orders      = SalesOrders.new( 120 )
-                self.sales_orders      = Invoices.new( 120 )
+                self.projects          = CustomerProjects.new( 5 )
+                self.time_entries      = TimeEntries.new( 80 )
+                self.sales_orders      = SalesOrders.new( 30 )
+                self.sales_orders      = Invoices.new( 30 )
 
                 # self.payment_processor = PaymentProcessor.new
                 # self.shipping_setting  = ShippingSetting.new
