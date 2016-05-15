@@ -13,7 +13,7 @@ Lanes::API.routes.for_extension 'stockor-demo' do
                 session['user_id'] = tester.user.id
                 { success: true, data: tester.user.workspace_data }
             else
-                { success:false, message: tester.errors.full_messages.join(", ") }
+                record_active_record_errors(tester)
             end
         end
 
