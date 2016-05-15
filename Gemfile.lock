@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 1d423b0fc8f8650c6fdd50d714572643c672462d
+  revision: e7a2ad06f5600e20d4f3c0dbfa4dc2360aafba23
   branch: master
   specs:
-    lanes (0.4.0)
+    lanes (0.5.6)
       activejob (~> 4.2)
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
@@ -13,7 +13,6 @@ GIT
       compass-import-once (~> 1.0)
       execjs (~> 2.6)
       fastimage (~> 1.8.1)
-      fog (~> 1.37.0)
       guard (~> 2.13)
       guard-jasmine (~> 2.0)
       guard-minitest (~> 2.3)
@@ -26,6 +25,7 @@ GIT
       mocha (~> 1.1)
       oj (~> 2.1)
       pg (~> 0.8)
+      rack-cors (~> 0.4)
       rack-protection (~> 1.5)
       rack-test (~> 0.6)
       rake (~> 10.0)
@@ -41,15 +41,24 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: 29a007f03ed71ebced1e1225c64e252060a97d51
+  revision: ab5c1ad69a750b64f255ed94672953df1f1e72e8
   branch: master
   specs:
-    stockor (0.3.0)
-      aasm (~> 4.1)
-      erb_latex (= 0.3)
-      lanes (~> 0.4.0)
+    stockor (0.4.5)
+      aasm (~> 4.10.1)
+      activemerchant (~> 1.59)
+      erb_latex (= 1.0)
+      lanes (~> 0.5.5)
       numbers_in_words (~> 0.4.0)
-      ruby-freshbooks
+      ruby-freshbooks (~> 0.4)
+
+GIT
+  remote: git://github.com/nathanstitt/rack-protection.git
+  revision: ae5b2cd7f9e0c301b1ff4340d74628592de8fdca
+  branch: allow-if
+  specs:
+    rack-protection (1.5.3)
+      rack
 
 PATH
   remote: .
@@ -60,11 +69,15 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    CFPropertyList (2.3.2)
-    aasm (4.10.0)
+    aasm (4.10.1)
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
+    activemerchant (1.59.0)
+      activesupport (>= 3.2.14, < 5.1)
+      builder (>= 2.1.2, < 4.0.0)
+      i18n (>= 0.6.9)
+      nokogiri (~> 1.4)
     activemodel (4.2.6)
       activesupport (= 4.2.6)
       builder (~> 3.1)
@@ -79,7 +92,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    airbrussh (1.0.1)
+    airbrussh (1.0.2)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (6.0.3)
     bcrypt (3.1.11)
@@ -95,10 +108,10 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-harrow (0.3.2)
+    capistrano-harrow (0.5.2)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
-    capistrano-rails (1.1.6)
+    capistrano-rails (1.1.7)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     carrierwave (0.10.0)
@@ -117,134 +130,22 @@ GEM
     coffee-script-source (1.10.0)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    concurrent-ruby (1.0.1)
+    concurrent-ruby (1.0.2)
     crass (1.0.2)
     debug_inspector (0.0.2)
-    erb_latex (0.3.0)
-    excon (0.49.0)
-    execjs (2.6.0)
+    erb_latex (1.0.0)
+    execjs (2.7.0)
     faker (1.6.3)
       i18n (~> 0.5)
     fastimage (1.8.1)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.10)
-    fission (0.5.0)
-      CFPropertyList (~> 2.2)
-    fog (1.37.0)
-      fog-aliyun (>= 0.1.0)
-      fog-atmos
-      fog-aws (>= 0.6.0)
-      fog-brightbox (~> 0.4)
-      fog-core (~> 1.32)
-      fog-dynect (~> 0.0.2)
-      fog-ecloud (~> 0.1)
-      fog-google (<= 0.1.0)
-      fog-json
-      fog-local
-      fog-powerdns (>= 0.1.1)
-      fog-profitbricks
-      fog-radosgw (>= 0.0.2)
-      fog-riakcs
-      fog-sakuracloud (>= 0.0.4)
-      fog-serverlove
-      fog-softlayer
-      fog-storm_on_demand
-      fog-terremark
-      fog-vmfusion
-      fog-voxel
-      fog-vsphere (>= 0.4.0)
-      fog-xenserver
-      fog-xml (~> 0.1.1)
-      ipaddress (~> 0.5)
-    fog-aliyun (0.1.0)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
-      ipaddress (~> 0.8)
-      xml-simple (~> 1.1)
-    fog-atmos (0.1.0)
-      fog-core
-      fog-xml
-    fog-aws (0.9.2)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
-      fog-xml (~> 0.1)
-      ipaddress (~> 0.8)
-    fog-brightbox (0.10.1)
-      fog-core (~> 1.22)
-      fog-json
-      inflecto (~> 0.0.2)
-    fog-core (1.38.0)
-      builder
-      excon (~> 0.49)
-      formatador (~> 0.2)
-    fog-dynect (0.0.3)
-      fog-core
-      fog-json
-      fog-xml
-    fog-ecloud (0.3.0)
-      fog-core
-      fog-xml
-    fog-google (0.1.0)
-      fog-core
-      fog-json
-      fog-xml
-    fog-json (1.0.2)
-      fog-core (~> 1.0)
-      multi_json (~> 1.10)
-    fog-local (0.3.0)
-      fog-core (~> 1.27)
-    fog-powerdns (0.1.1)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
-      fog-xml (~> 0.1)
-    fog-profitbricks (0.0.5)
-      fog-core
-      fog-xml
-      nokogiri
-    fog-radosgw (0.0.5)
-      fog-core (>= 1.21.0)
-      fog-json
-      fog-xml (>= 0.0.1)
-    fog-riakcs (0.1.0)
-      fog-core
-      fog-json
-      fog-xml
-    fog-sakuracloud (1.7.5)
-      fog-core
-      fog-json
-    fog-serverlove (0.1.2)
-      fog-core
-      fog-json
-    fog-softlayer (1.1.0)
-      fog-core
-      fog-json
-    fog-storm_on_demand (0.1.1)
-      fog-core
-      fog-json
-    fog-terremark (0.1.0)
-      fog-core
-      fog-xml
-    fog-vmfusion (0.1.0)
-      fission
-      fog-core
-    fog-voxel (0.1.0)
-      fog-core
-      fog-xml
-    fog-vsphere (0.6.4)
-      fog-core
-      rbvmomi (~> 1.8)
-    fog-xenserver (0.2.3)
-      fog-core
-      fog-xml
-    fog-xml (0.1.2)
-      fog-core
-      nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    guard (2.13.0)
+    guard (2.14.0)
       formatador (>= 0.2.4)
-      listen (>= 2.7, <= 4.0)
+      listen (>= 2.7, < 4.0)
       lumberjack (~> 1.0)
       nenv (~> 0.1)
       notiffany (~> 0.0)
@@ -260,16 +161,14 @@ GEM
       multi_json (~> 1.1)
       thor (~> 0.19)
       tilt
-    guard-minitest (2.4.4)
+    guard-minitest (2.4.5)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
-    hashie (3.4.3)
+    hashie (3.4.4)
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
-    inflecto (0.0.2)
-    ipaddress (0.8.3)
     jasmine (2.4.0)
       jasmine-core (~> 2.4)
       phantomjs
@@ -280,43 +179,46 @@ GEM
       redis (~> 3.2)
       redis-namespace
     json (1.8.3)
-    listen (3.1.1)
-      rb-fsevent (>= 0.9.3)
-      rb-inotify (>= 0.9.7)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     lumberjack (1.0.10)
     message_bus (2.0.0.beta.6)
       rack (>= 1.1.3)
     metaclass (0.0.4)
     method_source (0.8.2)
-    mime-types (3.0)
+    mime-types (3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2016.0221)
+    mime-types-data (3.2016.0521)
     mini_magick (4.3.6)
-    mini_portile2 (2.0.0)
-    minitest (5.8.4)
+    mini_portile2 (2.1.0)
+    minitest (5.9.0)
     minitest-around (0.3.2)
       minitest (~> 5.0)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
-    multi_json (1.11.3)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (3.1.1)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    net-ssh (3.2.0)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
     nokogumbo (1.2.0)
       nokogiri
-    notiffany (0.0.8)
+    notiffany (0.1.0)
       nenv (~> 0.1)
       shellany (~> 0.0)
     numbers_in_words (0.4.0)
       activesupport
-    oj (2.15.0)
+    oj (2.16.1)
     pg (0.18.4)
     phantomjs (2.1.1.0)
+    pkg-config (1.1.7)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -328,18 +230,13 @@ GEM
       pry (>= 0.9.11)
     puma (3.4.0)
     rack (1.6.4)
-    rack-protection (1.5.3)
-      rack
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rake (10.5.0)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
-    rbvmomi (1.8.2)
-      builder
-      nokogiri (>= 1.4.1)
-      trollop
     redis (3.3.0)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -353,6 +250,7 @@ GEM
     ruby-freshbooks (0.4.1)
       builder (>= 2.1.2)
       httparty (>= 0.5.0)
+    ruby_dep (1.3.1)
     sanitize (3.1.2)
       crass (~> 1.0.1)
       nokogiri (>= 1.4.4)
@@ -364,18 +262,17 @@ GEM
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
-    sprockets (3.6.0)
+    sprockets (3.6.3)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-helpers (1.2.1)
       sprockets (>= 2.2)
-    sshkit (1.10.0)
+    sshkit (1.11.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     thor (0.19.1)
     thread_safe (0.3.5)
-    tilt (2.0.2)
-    trollop (2.1.2)
+    tilt (2.0.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -383,7 +280,6 @@ GEM
       json (>= 1.8.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
-    xml-simple (1.1.5)
 
 PLATFORMS
   ruby
@@ -398,9 +294,10 @@ DEPENDENCIES
   pry-nav
   pry-stack_explorer
   puma
+  rack-protection!
   rake
   stockor!
   stockor-demo!
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

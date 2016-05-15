@@ -12,4 +12,6 @@ gem "hashie"
 gem "rake"
 gem 'puma'
 
+gem 'rack-protection', github: 'nathanstitt/rack-protection', branch: 'allow-if'
+
 gemspec

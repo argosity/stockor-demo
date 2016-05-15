@@ -66,6 +66,39 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE assets (
+    id integer NOT NULL,
+    file character varying NOT NULL,
+    owner_id integer NOT NULL,
+    owner_type character varying NOT NULL,
+    "order" integer,
+    metadata jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE assets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE assets_id_seq OWNED BY assets.id;
+
+
+--
 -- Name: lanes_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1837,6 +1870,13 @@ ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY assets ALTER COLUMN id SET DEFAULT nextval('assets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY lanes_users ALTER COLUMN id SET DEFAULT nextval('lanes_users_id_seq'::regclass);
 
 
@@ -2097,6 +2137,14 @@ ALTER TABLE ONLY system_settings ALTER COLUMN id SET DEFAULT nextval('system_set
 --
 
 ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
+
+
+--
+-- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY assets
+    ADD CONSTRAINT assets_pkey PRIMARY KEY (id);
 
 
 --
@@ -2409,6 +2457,13 @@ ALTER TABLE ONLY system_settings
 
 ALTER TABLE ONLY testers
     ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_assets_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_assets_on_owner_id_and_owner_type ON assets USING btree (owner_id, owner_type);
 
 
 --
@@ -3167,6 +3222,8 @@ ALTER TABLE ONLY skr_vouchers
 SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
+
+INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('20120110142845');
 
