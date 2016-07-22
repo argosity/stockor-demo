@@ -11,6 +11,7 @@ gem "faker"
 gem "hashie"
 gem "rake"
 gem 'puma'
+gem 'rollbar'
 
 gem 'rack-protection', github: 'nathanstitt/rack-protection', branch: 'allow-if'
 

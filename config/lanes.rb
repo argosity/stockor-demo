@@ -6,3 +6,8 @@ Lanes.configure do | config |
 
 
 end
+
+secrets = Pathname.new(__FILE__).dirname.join('secrets.rb')
+if secrets.exist?
+    require secrets
+end

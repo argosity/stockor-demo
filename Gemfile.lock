@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: e7a2ad06f5600e20d4f3c0dbfa4dc2360aafba23
+  revision: 03a85f67ee286ca915dd28c653bb44b053b9c112
   branch: master
   specs:
     lanes (0.5.6)
@@ -41,7 +41,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: ab5c1ad69a750b64f255ed94672953df1f1e72e8
+  revision: acae273514732a204bca22a4edc9c86918dda360
   branch: master
   specs:
     stockor (0.4.5)
@@ -70,22 +70,22 @@ GEM
   remote: https://rubygems.org/
   specs:
     aasm (4.10.1)
-    activejob (4.2.6)
-      activesupport (= 4.2.6)
+    activejob (4.2.7)
+      activesupport (= 4.2.7)
       globalid (>= 0.3.0)
-    activemerchant (1.59.0)
+    activemerchant (1.60.0)
       activesupport (>= 3.2.14, < 5.1)
       builder (>= 2.1.2, < 4.0.0)
       i18n (>= 0.6.9)
       nokogiri (~> 1.4)
-    activemodel (4.2.6)
-      activesupport (= 4.2.6)
+    activemodel (4.2.7)
+      activesupport (= 4.2.7)
       builder (~> 3.1)
-    activerecord (4.2.6)
-      activemodel (= 4.2.6)
-      activesupport (= 4.2.6)
+    activerecord (4.2.7)
+      activemodel (= 4.2.7)
+      activesupport (= 4.2.7)
       arel (~> 6.0)
-    activesupport (4.2.6)
+    activesupport (4.2.7)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -135,11 +135,11 @@ GEM
     debug_inspector (0.0.2)
     erb_latex (1.0.0)
     execjs (2.7.0)
-    faker (1.6.3)
+    faker (1.6.5)
       i18n (~> 0.5)
     fastimage (1.8.1)
       addressable (~> 2.3, >= 2.3.5)
-    ffi (1.9.10)
+    ffi (1.9.14)
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -215,11 +215,11 @@ GEM
       shellany (~> 0.0)
     numbers_in_words (0.4.0)
       activesupport
-    oj (2.16.1)
+    oj (2.17.1)
     pg (0.18.4)
     phantomjs (2.1.1.0)
     pkg-config (1.1.7)
-    pry (0.10.3)
+    pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
@@ -228,7 +228,7 @@ GEM
     pry-stack_explorer (0.4.9.2)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    puma (3.4.0)
+    puma (3.5.2)
     rack (1.6.4)
     rack-cors (0.4.0)
     rack-test (0.6.3)
@@ -237,7 +237,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
-    redis (3.3.0)
+    redis (3.3.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     require_all (1.3.3)
@@ -247,6 +247,8 @@ GEM
       redis-namespace (~> 1.3)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
+    rollbar (2.12.0)
+      multi_json
     ruby-freshbooks (0.4.1)
       builder (>= 2.1.2)
       httparty (>= 0.5.0)
@@ -262,7 +264,7 @@ GEM
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
-    sprockets (3.6.3)
+    sprockets (3.7.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-helpers (1.2.1)
@@ -296,6 +298,7 @@ DEPENDENCIES
   puma
   rack-protection!
   rake
+  rollbar
   stockor!
   stockor-demo!
 

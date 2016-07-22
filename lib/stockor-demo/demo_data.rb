@@ -39,7 +39,7 @@ module StockorDemo
 
         mattr_accessor :terms, :payment_processor, :shipping_setting, :locations, :vendors,
                        :skus, :projects, :item_categories, :items, :purchase_orders, :customers,
-                       :sales_orders, :adjustment, :time_entries
+                       :sales_orders, :adjustment, :time_entries, :invoices
 
         def self.log( str, *args )
             STDOUT.puts str % args
@@ -57,8 +57,8 @@ module StockorDemo
                 self.skus              = Skus.new( 35 )
                 self.projects          = CustomerProjects.new( 5 )
                 self.time_entries      = TimeEntries.new( 80 )
-                self.sales_orders      = SalesOrders.new( 30 )
-                self.sales_orders      = Invoices.new( 30 )
+                self.sales_orders      = SalesOrders.new( 120 )
+                self.invoices          = Invoices.new( 240 )
 
                 # self.payment_processor = PaymentProcessor.new
                 # self.shipping_setting  = ShippingSetting.new
