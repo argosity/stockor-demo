@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 03a85f67ee286ca915dd28c653bb44b053b9c112
+  revision: a83efaf0bf310c073221d3e0c8c5ce7c4b15a7df
   branch: master
   specs:
     lanes (0.5.6)
@@ -41,7 +41,7 @@ GIT
 
 GIT
   remote: git://github.com/argosity/stockor.git
-  revision: acae273514732a204bca22a4edc9c86918dda360
+  revision: 7fe79a3d6191d763ddeefe54005dea26f1a84b7d
   branch: master
   specs:
     stockor (0.4.5)
@@ -287,6 +287,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  capistrano (~> 3.5.0)
   capistrano-bundler
   capistrano-passenger
   capistrano-rails

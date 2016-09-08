@@ -28,6 +28,7 @@ module StockorDemo
                     po_num: Faker::Team.name,
                     customer: @customers.sample,
                     sku: Skr::Sku.order('RANDOM()').first,
+                    options: {color: (rand*10).to_i},
                     rates: {hourly: rate}
                 })
             end
