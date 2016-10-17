@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -61,12 +65,52 @@ end;
 $_$;
 
 
+--
+-- Name: btree_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY btree_hstore_ops USING btree;
+
+
+--
+-- Name: gin_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY gin_hstore_ops USING gin;
+
+
+--
+-- Name: gist_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY gist_hstore_ops USING gist;
+
+
+--
+-- Name: hash_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY hash_hstore_ops USING hash;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: assets; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE assets (
@@ -99,7 +143,7 @@ ALTER SEQUENCE assets_id_seq OWNED BY assets.id;
 
 
 --
--- Name: lanes_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: lanes_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE lanes_users (
@@ -135,7 +179,7 @@ ALTER SEQUENCE lanes_users_id_seq OWNED BY lanes_users.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
@@ -144,7 +188,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: skr_addresses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_addresses; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_addresses (
@@ -184,7 +228,7 @@ ALTER SEQUENCE skr_addresses_id_seq OWNED BY skr_addresses.id;
 
 
 --
--- Name: skr_bank_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_bank_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_bank_accounts (
@@ -221,7 +265,7 @@ ALTER SEQUENCE skr_bank_accounts_id_seq OWNED BY skr_bank_accounts.id;
 
 
 --
--- Name: skr_uoms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_uoms; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_uoms (
@@ -255,7 +299,7 @@ CREATE VIEW skr_combined_uom AS
 
 
 --
--- Name: skr_customer_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_customer_projects; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_customer_projects (
@@ -275,7 +319,7 @@ CREATE TABLE skr_customer_projects (
 
 
 --
--- Name: skr_customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_customers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_customers (
@@ -302,7 +346,7 @@ CREATE TABLE skr_customers (
 
 
 --
--- Name: skr_skus; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_skus; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_skus (
@@ -329,7 +373,7 @@ CREATE TABLE skr_skus (
 --
 
 CREATE VIEW skr_customer_project_details AS
- SELECT cp.id AS skr_customer_project_id,
+ SELECT cp.id AS customer_project_id,
     c.code AS customer_code,
     c.name AS customer_description,
     s.code AS sku_code,
@@ -378,7 +422,7 @@ ALTER SEQUENCE skr_customers_id_seq OWNED BY skr_customers.id;
 
 
 --
--- Name: skr_expense_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_expense_categories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_expense_categories (
@@ -414,7 +458,7 @@ ALTER SEQUENCE skr_expense_categories_id_seq OWNED BY skr_expense_categories.id;
 
 
 --
--- Name: skr_expense_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_expense_entries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_expense_entries (
@@ -449,7 +493,7 @@ ALTER SEQUENCE skr_expense_entries_id_seq OWNED BY skr_expense_entries.id;
 
 
 --
--- Name: skr_expense_entry_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_expense_entry_categories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_expense_entry_categories (
@@ -480,7 +524,7 @@ ALTER SEQUENCE skr_expense_entry_categories_id_seq OWNED BY skr_expense_entry_ca
 
 
 --
--- Name: skr_gl_transactions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_transactions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_gl_transactions (
@@ -519,7 +563,7 @@ CREATE VIEW skr_expense_entry_details AS
 
 
 --
--- Name: skr_gl_account_balances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_account_balances; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_gl_account_balances (
@@ -532,7 +576,7 @@ ALTER TABLE ONLY skr_gl_account_balances REPLICA IDENTITY NOTHING;
 
 
 --
--- Name: skr_gl_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_gl_accounts (
@@ -568,7 +612,7 @@ ALTER SEQUENCE skr_gl_accounts_id_seq OWNED BY skr_gl_accounts.id;
 
 
 --
--- Name: skr_gl_manual_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_manual_entries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_gl_manual_entries (
@@ -602,7 +646,7 @@ ALTER SEQUENCE skr_gl_manual_entries_id_seq OWNED BY skr_gl_manual_entries.id;
 
 
 --
--- Name: skr_gl_periods; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_periods; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_gl_periods (
@@ -637,7 +681,7 @@ ALTER SEQUENCE skr_gl_periods_id_seq OWNED BY skr_gl_periods.id;
 
 
 --
--- Name: skr_gl_postings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_postings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_gl_postings (
@@ -718,7 +762,7 @@ ALTER SEQUENCE skr_gl_transactions_id_seq OWNED BY skr_gl_transactions.id;
 
 
 --
--- Name: skr_ia_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_ia_lines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_ia_lines (
@@ -757,7 +801,7 @@ ALTER SEQUENCE skr_ia_lines_id_seq OWNED BY skr_ia_lines.id;
 
 
 --
--- Name: skr_ia_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_ia_reasons; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_ia_reasons (
@@ -792,7 +836,7 @@ ALTER SEQUENCE skr_ia_reasons_id_seq OWNED BY skr_ia_reasons.id;
 
 
 --
--- Name: skr_inv_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_inv_lines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_inv_lines (
@@ -819,7 +863,7 @@ CREATE TABLE skr_inv_lines (
 
 
 --
--- Name: skr_invoices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_invoices; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_invoices (
@@ -849,7 +893,7 @@ CREATE TABLE skr_invoices (
 
 
 --
--- Name: skr_payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_payments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_payments (
@@ -874,7 +918,7 @@ CREATE TABLE skr_payments (
 
 
 --
--- Name: skr_pick_tickets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_pick_tickets; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_pick_tickets (
@@ -892,7 +936,7 @@ CREATE TABLE skr_pick_tickets (
 
 
 --
--- Name: skr_sales_orders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sales_orders; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_sales_orders (
@@ -921,7 +965,7 @@ CREATE TABLE skr_sales_orders (
 
 
 --
--- Name: skr_sku_locs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sku_locs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_sku_locs (
@@ -1003,7 +1047,7 @@ ALTER SEQUENCE skr_inv_lines_id_seq OWNED BY skr_inv_lines.id;
 
 
 --
--- Name: skr_inventory_adjustments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_inventory_adjustments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_inventory_adjustments (
@@ -1059,7 +1103,7 @@ ALTER SEQUENCE skr_invoices_id_seq OWNED BY skr_invoices.id;
 
 
 --
--- Name: skr_locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_locations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_locations (
@@ -1097,7 +1141,7 @@ ALTER SEQUENCE skr_locations_id_seq OWNED BY skr_locations.id;
 
 
 --
--- Name: skr_payment_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_payment_categories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_payment_categories (
@@ -1130,7 +1174,7 @@ ALTER SEQUENCE skr_payment_categories_id_seq OWNED BY skr_payment_categories.id;
 
 
 --
--- Name: skr_payment_terms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_payment_terms; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_payment_terms (
@@ -1205,7 +1249,7 @@ ALTER SEQUENCE skr_pick_tickets_id_seq OWNED BY skr_pick_tickets.id;
 
 
 --
--- Name: skr_po_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_po_lines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_po_lines (
@@ -1251,7 +1295,7 @@ ALTER SEQUENCE skr_po_lines_id_seq OWNED BY skr_po_lines.id;
 
 
 --
--- Name: skr_po_receipts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_po_receipts; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_po_receipts (
@@ -1288,7 +1332,7 @@ ALTER SEQUENCE skr_po_receipts_id_seq OWNED BY skr_po_receipts.id;
 
 
 --
--- Name: skr_por_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_por_lines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_por_lines (
@@ -1330,7 +1374,7 @@ ALTER SEQUENCE skr_por_lines_id_seq OWNED BY skr_por_lines.id;
 
 
 --
--- Name: skr_pt_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_pt_lines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_pt_lines (
@@ -1371,7 +1415,7 @@ ALTER SEQUENCE skr_pt_lines_id_seq OWNED BY skr_pt_lines.id;
 
 
 --
--- Name: skr_purchase_orders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_purchase_orders; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_purchase_orders (
@@ -1431,7 +1475,7 @@ ALTER SEQUENCE skr_sales_orders_id_seq OWNED BY skr_sales_orders.id;
 
 
 --
--- Name: skr_sequential_ids; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sequential_ids; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_sequential_ids (
@@ -1452,7 +1496,7 @@ CREATE VIEW skr_sku_inv_xref AS
 
 
 --
--- Name: skr_sku_vendors; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sku_vendors; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_sku_vendors (
@@ -1473,7 +1517,7 @@ CREATE TABLE skr_sku_vendors (
 
 
 --
--- Name: skr_vendors; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_vendors; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_vendors (
@@ -1540,7 +1584,7 @@ ALTER SEQUENCE skr_sku_locs_id_seq OWNED BY skr_sku_locs.id;
 
 
 --
--- Name: skr_so_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_so_lines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_so_lines (
@@ -1609,7 +1653,7 @@ CREATE VIEW skr_sku_so_xref AS
 
 
 --
--- Name: skr_sku_trans; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sku_trans; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_sku_trans (
@@ -1733,8 +1777,8 @@ CREATE VIEW skr_so_dailly_sales_history AS
             date_trunc('day'::text, so.created_at) AS so_date
            FROM (skr_so_lines sol
              JOIN skr_sales_orders so ON ((sol.sales_order_id = so.id)))
-          GROUP BY date_trunc('day'::text, so.created_at)) ttls ON ((ttls.so_date = date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone))))
-  ORDER BY date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone) DESC;
+          GROUP BY (date_trunc('day'::text, so.created_at))) ttls ON ((ttls.so_date = date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone))))
+  ORDER BY (date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone)) DESC;
 
 
 --
@@ -1800,7 +1844,7 @@ ALTER SEQUENCE skr_so_lines_id_seq OWNED BY skr_so_lines.id;
 
 
 --
--- Name: skr_time_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_time_entries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_time_entries (
@@ -1877,7 +1921,7 @@ ALTER SEQUENCE skr_vendors_id_seq OWNED BY skr_vendors.id;
 
 
 --
--- Name: skr_vo_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_vo_lines; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_vo_lines (
@@ -1920,7 +1964,7 @@ ALTER SEQUENCE skr_vo_lines_id_seq OWNED BY skr_vo_lines.id;
 
 
 --
--- Name: skr_vouchers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_vouchers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skr_vouchers (
@@ -1959,7 +2003,7 @@ ALTER SEQUENCE skr_vouchers_id_seq OWNED BY skr_vouchers.id;
 
 
 --
--- Name: system_settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: system_settings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE system_settings (
@@ -1988,7 +2032,7 @@ ALTER SEQUENCE system_settings_id_seq OWNED BY system_settings.id;
 
 
 --
--- Name: testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: testers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE testers (
@@ -2315,7 +2359,15 @@ ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::r
 
 
 --
--- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY assets
@@ -2323,7 +2375,7 @@ ALTER TABLE ONLY assets
 
 
 --
--- Name: lanes_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: lanes_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY lanes_users
@@ -2331,7 +2383,7 @@ ALTER TABLE ONLY lanes_users
 
 
 --
--- Name: skr_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_addresses
@@ -2339,7 +2391,7 @@ ALTER TABLE ONLY skr_addresses
 
 
 --
--- Name: skr_bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_bank_accounts
@@ -2347,7 +2399,7 @@ ALTER TABLE ONLY skr_bank_accounts
 
 
 --
--- Name: skr_customer_projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_customer_projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_customer_projects
@@ -2355,7 +2407,7 @@ ALTER TABLE ONLY skr_customer_projects
 
 
 --
--- Name: skr_customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_customers
@@ -2363,7 +2415,7 @@ ALTER TABLE ONLY skr_customers
 
 
 --
--- Name: skr_expense_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_expense_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_expense_categories
@@ -2371,7 +2423,7 @@ ALTER TABLE ONLY skr_expense_categories
 
 
 --
--- Name: skr_expense_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_expense_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_expense_entries
@@ -2379,7 +2431,7 @@ ALTER TABLE ONLY skr_expense_entries
 
 
 --
--- Name: skr_expense_entry_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_expense_entry_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_expense_entry_categories
@@ -2387,7 +2439,7 @@ ALTER TABLE ONLY skr_expense_entry_categories
 
 
 --
--- Name: skr_gl_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_gl_accounts
@@ -2395,7 +2447,7 @@ ALTER TABLE ONLY skr_gl_accounts
 
 
 --
--- Name: skr_gl_manual_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_manual_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_gl_manual_entries
@@ -2403,7 +2455,7 @@ ALTER TABLE ONLY skr_gl_manual_entries
 
 
 --
--- Name: skr_gl_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_gl_periods
@@ -2411,7 +2463,7 @@ ALTER TABLE ONLY skr_gl_periods
 
 
 --
--- Name: skr_gl_postings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_postings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_gl_postings
@@ -2419,7 +2471,7 @@ ALTER TABLE ONLY skr_gl_postings
 
 
 --
--- Name: skr_gl_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_gl_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_gl_transactions
@@ -2427,7 +2479,7 @@ ALTER TABLE ONLY skr_gl_transactions
 
 
 --
--- Name: skr_ia_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_ia_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_ia_lines
@@ -2435,7 +2487,7 @@ ALTER TABLE ONLY skr_ia_lines
 
 
 --
--- Name: skr_ia_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_ia_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_ia_reasons
@@ -2443,7 +2495,7 @@ ALTER TABLE ONLY skr_ia_reasons
 
 
 --
--- Name: skr_inv_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_inv_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_inv_lines
@@ -2451,7 +2503,7 @@ ALTER TABLE ONLY skr_inv_lines
 
 
 --
--- Name: skr_inventory_adjustments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_inventory_adjustments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_inventory_adjustments
@@ -2459,7 +2511,7 @@ ALTER TABLE ONLY skr_inventory_adjustments
 
 
 --
--- Name: skr_invoices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_invoices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_invoices
@@ -2467,7 +2519,7 @@ ALTER TABLE ONLY skr_invoices
 
 
 --
--- Name: skr_locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_locations
@@ -2475,7 +2527,7 @@ ALTER TABLE ONLY skr_locations
 
 
 --
--- Name: skr_payment_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_payment_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_payment_categories
@@ -2483,7 +2535,7 @@ ALTER TABLE ONLY skr_payment_categories
 
 
 --
--- Name: skr_payment_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_payment_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_payment_terms
@@ -2491,7 +2543,7 @@ ALTER TABLE ONLY skr_payment_terms
 
 
 --
--- Name: skr_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_payments
@@ -2499,7 +2551,7 @@ ALTER TABLE ONLY skr_payments
 
 
 --
--- Name: skr_pick_tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_pick_tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_pick_tickets
@@ -2507,7 +2559,7 @@ ALTER TABLE ONLY skr_pick_tickets
 
 
 --
--- Name: skr_po_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_po_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_po_lines
@@ -2515,7 +2567,7 @@ ALTER TABLE ONLY skr_po_lines
 
 
 --
--- Name: skr_po_receipts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_po_receipts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_po_receipts
@@ -2523,7 +2575,7 @@ ALTER TABLE ONLY skr_po_receipts
 
 
 --
--- Name: skr_por_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_por_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_por_lines
@@ -2531,7 +2583,7 @@ ALTER TABLE ONLY skr_por_lines
 
 
 --
--- Name: skr_pt_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_pt_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_pt_lines
@@ -2539,7 +2591,7 @@ ALTER TABLE ONLY skr_pt_lines
 
 
 --
--- Name: skr_purchase_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_purchase_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_purchase_orders
@@ -2547,7 +2599,7 @@ ALTER TABLE ONLY skr_purchase_orders
 
 
 --
--- Name: skr_sales_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sales_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_sales_orders
@@ -2555,7 +2607,7 @@ ALTER TABLE ONLY skr_sales_orders
 
 
 --
--- Name: skr_sequential_ids_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sequential_ids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_sequential_ids
@@ -2563,7 +2615,7 @@ ALTER TABLE ONLY skr_sequential_ids
 
 
 --
--- Name: skr_sku_locs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sku_locs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_sku_locs
@@ -2571,7 +2623,7 @@ ALTER TABLE ONLY skr_sku_locs
 
 
 --
--- Name: skr_sku_trans_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sku_trans_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_sku_trans
@@ -2579,7 +2631,7 @@ ALTER TABLE ONLY skr_sku_trans
 
 
 --
--- Name: skr_sku_vendors_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_sku_vendors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_sku_vendors
@@ -2587,7 +2639,7 @@ ALTER TABLE ONLY skr_sku_vendors
 
 
 --
--- Name: skr_skus_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_skus_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_skus
@@ -2595,7 +2647,7 @@ ALTER TABLE ONLY skr_skus
 
 
 --
--- Name: skr_so_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_so_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_so_lines
@@ -2603,7 +2655,7 @@ ALTER TABLE ONLY skr_so_lines
 
 
 --
--- Name: skr_time_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_time_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_time_entries
@@ -2611,7 +2663,7 @@ ALTER TABLE ONLY skr_time_entries
 
 
 --
--- Name: skr_uoms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_uoms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_uoms
@@ -2619,7 +2671,7 @@ ALTER TABLE ONLY skr_uoms
 
 
 --
--- Name: skr_vendors_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_vendors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_vendors
@@ -2627,7 +2679,7 @@ ALTER TABLE ONLY skr_vendors
 
 
 --
--- Name: skr_vo_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_vo_lines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_vo_lines
@@ -2635,7 +2687,7 @@ ALTER TABLE ONLY skr_vo_lines
 
 
 --
--- Name: skr_vouchers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skr_vouchers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_vouchers
@@ -2643,7 +2695,7 @@ ALTER TABLE ONLY skr_vouchers
 
 
 --
--- Name: system_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: system_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY system_settings
@@ -2651,7 +2703,7 @@ ALTER TABLE ONLY system_settings
 
 
 --
--- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY testers
@@ -2659,168 +2711,168 @@ ALTER TABLE ONLY testers
 
 
 --
--- Name: index_assets_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_assets_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_assets_on_owner_id_and_owner_type ON assets USING btree (owner_id, owner_type);
 
 
 --
--- Name: index_lanes_users_on_role_names; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_lanes_users_on_role_names; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_lanes_users_on_role_names ON lanes_users USING gin (role_names);
 
 
 --
--- Name: index_skr_customer_projects_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_customer_projects_on_code; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_customer_projects_on_code ON skr_customer_projects USING btree (code);
 
 
 --
--- Name: index_skr_customers_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_customers_on_code; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_customers_on_code ON skr_customers USING btree (code);
 
 
 --
--- Name: index_skr_expense_categories_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_expense_categories_on_code; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_expense_categories_on_code ON skr_expense_categories USING btree (code);
 
 
 --
--- Name: index_skr_expense_entries_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_expense_entries_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_skr_expense_entries_on_uuid ON skr_expense_entries USING btree (uuid);
 
 
 --
--- Name: index_skr_expense_entry_categories_on_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_expense_entry_categories_on_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_expense_entry_categories_on_entry_id ON skr_expense_entry_categories USING btree (entry_id);
 
 
 --
--- Name: index_skr_gl_manual_entries_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_gl_manual_entries_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_gl_manual_entries_on_visible_id ON skr_gl_manual_entries USING btree (visible_id);
 
 
 --
--- Name: index_skr_gl_postings_on_period_and_year_and_account_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_gl_postings_on_period_and_year_and_account_number; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_gl_postings_on_period_and_year_and_account_number ON skr_gl_postings USING btree (period, year, account_number);
 
 
 --
--- Name: index_skr_inv_lines_on_sku_loc_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_inv_lines_on_sku_loc_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_inv_lines_on_sku_loc_id ON skr_inv_lines USING btree (sku_loc_id);
 
 
 --
--- Name: index_skr_inventory_adjustments_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_inventory_adjustments_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_inventory_adjustments_on_visible_id ON skr_inventory_adjustments USING btree (visible_id);
 
 
 --
--- Name: index_skr_invoices_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_invoices_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_invoices_on_visible_id ON skr_invoices USING btree (visible_id);
 
 
 --
--- Name: index_skr_locations_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_locations_on_code; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_locations_on_code ON skr_locations USING btree (code);
 
 
 --
--- Name: index_skr_payment_terms_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_payment_terms_on_code; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_payment_terms_on_code ON skr_payment_terms USING btree (code);
 
 
 --
--- Name: index_skr_payments_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_payments_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_payments_on_visible_id ON skr_payments USING btree (visible_id);
 
 
 --
--- Name: index_skr_pick_tickets_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_pick_tickets_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_pick_tickets_on_visible_id ON skr_pick_tickets USING btree (visible_id);
 
 
 --
--- Name: index_skr_po_receipts_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_po_receipts_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_po_receipts_on_visible_id ON skr_po_receipts USING btree (visible_id);
 
 
 --
--- Name: index_skr_purchase_orders_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_purchase_orders_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_purchase_orders_on_visible_id ON skr_purchase_orders USING btree (visible_id);
 
 
 --
--- Name: index_skr_sales_orders_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_sales_orders_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_sales_orders_on_visible_id ON skr_sales_orders USING btree (visible_id);
 
 
 --
--- Name: index_skr_sku_locs_on_sku_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_sku_locs_on_sku_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_sku_locs_on_sku_id ON skr_sku_locs USING btree (sku_id);
 
 
 --
--- Name: index_skr_so_lines_on_sku_loc_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_so_lines_on_sku_loc_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_so_lines_on_sku_loc_id ON skr_so_lines USING btree (sku_loc_id);
 
 
 --
--- Name: index_skr_time_entries_on_lanes_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_time_entries_on_lanes_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_time_entries_on_lanes_user_id ON skr_time_entries USING btree (lanes_user_id);
 
 
 --
--- Name: index_skr_vouchers_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_vouchers_on_visible_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_skr_vouchers_on_visible_id ON skr_vouchers USING btree (visible_id);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -2836,7 +2888,7 @@ CREATE RULE "_RETURN" AS
     COALESCE(sum(glp.amount), 0.00) AS balance
    FROM (skr_gl_accounts gla
      LEFT JOIN skr_gl_postings glp ON (("left"((glp.account_number)::text, 4) = (gla.number)::text)))
-  GROUP BY gla.id, "right"((glp.account_number)::text, 2)
+  GROUP BY gla.id, ("right"((glp.account_number)::text, 2))
   ORDER BY gla.number;
 
 
@@ -3484,115 +3536,8 @@ ALTER TABLE ONLY skr_vouchers
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('1');
+INSERT INTO schema_migrations (version) VALUES ('1'), ('2'), ('20120110142845'), ('20140202185309'), ('20140202193316'), ('20140202193318'), ('20140202193319'), ('20140202193700'), ('20140202194700'), ('20140213040608'), ('20140220031700'), ('20140220031800'), ('20140220190836'), ('20140220203029'), ('20140224034759'), ('20140225032853'), ('20140320030501'), ('20140321031604'), ('20140322012143'), ('20140322014401'), ('20140322023453'), ('20140322035024'), ('20140322223912'), ('20140322223920'), ('20140323001446'), ('20140327202102'), ('20140327202107'), ('20140327202207'), ('20140327202209'), ('20140327214000'), ('20140327223002'), ('20140327224000'), ('20140327224002'), ('20140330232808'), ('20140330232810'), ('20140400164729'), ('20140400164733'), ('20140401164729'), ('20140401164740'), ('20140422024010'), ('20140615031600'), ('20150220015108'), ('20151121211323'), ('20160216142845'), ('20160229002044'), ('20160229041711'), ('20160307022705'), ('20160517032350'), ('20160531014306'), ('20160604195848'), ('20160605024432'), ('20160608023553'), ('20160620010455'), ('20160726004411'), ('20160805002717');
 
-INSERT INTO schema_migrations (version) VALUES ('2');
-
-INSERT INTO schema_migrations (version) VALUES ('20120110142845');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202185309');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193316');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193318');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193319');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193700');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202194700');
-
-INSERT INTO schema_migrations (version) VALUES ('20140213040608');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220031700');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220031800');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220190836');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220203029');
-
-INSERT INTO schema_migrations (version) VALUES ('20140224034759');
-
-INSERT INTO schema_migrations (version) VALUES ('20140225032853');
-
-INSERT INTO schema_migrations (version) VALUES ('20140320030501');
-
-INSERT INTO schema_migrations (version) VALUES ('20140321031604');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322012143');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322014401');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322023453');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322035024');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322223912');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322223920');
-
-INSERT INTO schema_migrations (version) VALUES ('20140323001446');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202102');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202107');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202207');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202209');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327214000');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327223002');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327224000');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327224002');
-
-INSERT INTO schema_migrations (version) VALUES ('20140330232808');
-
-INSERT INTO schema_migrations (version) VALUES ('20140330232810');
-
-INSERT INTO schema_migrations (version) VALUES ('20140400164729');
-
-INSERT INTO schema_migrations (version) VALUES ('20140400164733');
-
-INSERT INTO schema_migrations (version) VALUES ('20140401164729');
-
-INSERT INTO schema_migrations (version) VALUES ('20140401164740');
-
-INSERT INTO schema_migrations (version) VALUES ('20140422024010');
-
-INSERT INTO schema_migrations (version) VALUES ('20140615031600');
-
-INSERT INTO schema_migrations (version) VALUES ('20150220015108');
-
-INSERT INTO schema_migrations (version) VALUES ('20151121211323');
-
-INSERT INTO schema_migrations (version) VALUES ('20160216142845');
-
-INSERT INTO schema_migrations (version) VALUES ('20160229002044');
-
-INSERT INTO schema_migrations (version) VALUES ('20160229041711');
-
-INSERT INTO schema_migrations (version) VALUES ('20160307022705');
-
-INSERT INTO schema_migrations (version) VALUES ('20160517032350');
-
-INSERT INTO schema_migrations (version) VALUES ('20160531014306');
-
-INSERT INTO schema_migrations (version) VALUES ('20160604195848');
-
-INSERT INTO schema_migrations (version) VALUES ('20160605024432');
-
-INSERT INTO schema_migrations (version) VALUES ('20160608023553');
-
-INSERT INTO schema_migrations (version) VALUES ('20160620010455');
-
-INSERT INTO schema_migrations (version) VALUES ('20160726004411');
-
-INSERT INTO schema_migrations (version) VALUES ('20160805002717');
 

@@ -2,6 +2,7 @@ development:
   adapter: postgresql
   database: skr_dev
   host: /tmp
+  pool:  12
 
 test:
   adapter: postgresql
