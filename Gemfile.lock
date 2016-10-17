@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/argosity/lanes
-  revision: 530c9292f3990a225a76f12be58324235b9afa78
+  revision: 5d2ae7d0abc25c938cea5dfa1002075f469bff89
   branch: master
   specs:
     lanes (0.5.6)
@@ -42,11 +42,11 @@ GIT
 
 GIT
   remote: https://github.com/argosity/stockor
-  revision: 737255a317e7986a413e122200f6639bdc946f68
+  revision: 3bc14369c2c6b54e22afe6dc0e25be9e0a9d94ef
   branch: master
   specs:
     stockor (0.4.5)
-      aasm (~> 4.10.1)
+      aasm (~> 4.11)
       activemerchant (~> 1.59)
       erb_latex (= 1.0)
       lanes (~> 0.5.5)
@@ -56,7 +56,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.10.1)
+    aasm (4.11.1)
     actioncable (5.0.0.1)
       actionpack (= 5.0.0.1)
       nio4r (~> 1.2)
@@ -96,7 +96,7 @@ GEM
     addressable (2.4.0)
     airbrussh (1.1.1)
       sshkit (>= 1.6.1, != 1.7.0)
-    arel (7.1.2)
+    arel (7.1.4)
     bcrypt (3.1.11)
     builder (3.2.2)
     capistrano (3.5.0)
@@ -122,7 +122,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
-    coffee-react (4.0.0)
+    coffee-react (4.0.1)
       execjs
     coffee-script (2.4.1)
       coffee-script-source
@@ -195,7 +195,7 @@ GEM
     minitest (5.9.1)
     minitest-around (0.4.0)
       minitest (~> 5.0)
-    mocha (1.1.0)
+    mocha (1.2.1)
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
     multi_json (1.12.1)
@@ -249,7 +249,7 @@ GEM
       redis-namespace (~> 1.3)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
-    rollbar (2.13.2)
+    rollbar (2.13.3)
       multi_json
     ruby-freshbooks (0.4.1)
       builder (>= 2.1.2)

@@ -1,0 +1,24 @@
+/*
+ *= require lanes
+ */
+
+.lanes-root {
+    height: inherit;
+}
+.demo-overlay {
+    transition: all 1.5s ease-out;
+    position: fixed;
+    background: white;
+    overflow: scroll;
+}
+
+.demo-overlay.hidden {
+    display: none;
+}
+
+button.demo-overlay-hide {
+    z-index: 30;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+}
