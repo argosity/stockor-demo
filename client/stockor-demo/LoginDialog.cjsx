@@ -78,26 +78,26 @@ class StockorDemo.LoginDialog extends Lanes.React.Component
             <table className="table table-striped table-hover" onClick={@setRoleFromRow}>
                 <tbody>
                     <tr>
-                      <td align="center">
+                      <td>
                         <LC.RadioField writable  {...roleProps} value="administrator" />
                       </td>
                       <td>Administrator</td>
                       <td>Con
                       trol ALL THE THINGS</td>
                     </tr><tr>
-                      <td align="center">
+                      <td>
                         <LC.RadioField {...roleProps} value="accounting" />
                       </td>
                       <td>Accounting</td>
                       <td>Financial information, sets credit limits.</td>
                     </tr><tr>
-                      <td align="center">
+                      <td>
                         <LC.RadioField {...roleProps} value="customer_support" />
                       </td>
                       <td>Customer Service</td>
                       <td>Customer and Sales Orders</td>
                     </tr><tr>
-                      <td align="center">
+                      <td>
                         <LC.RadioField {...roleProps} value="purchasing" />
                       </td>
                       <td>Purchasing</td>
