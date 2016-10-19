@@ -10,6 +10,15 @@ module StockorDemo
 
         root_path Pathname.new(__FILE__).dirname.join("..","..").expand_path
 
+        def each_static_asset
+            super do | entry |
+                yield entry
+            end
+            [ 'stockor-demo/remote.js', 'stockor-demo/remote.css' ].each { | asset |
+                yield asset
+            }
+        end
+
     end
 
 end
