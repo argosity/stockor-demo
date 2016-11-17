@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/argosity/lanes
-  revision: cdbf01cf1f97167bf24faf9ca4c3c9cf4e99e22d
+  revision: 3b0cf21813032a969d26133aa3372ed5ff5ee265
   branch: master
   specs:
     lanes (0.6.1)
@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: https://github.com/argosity/stockor
-  revision: 395d13014a44d778e6797ce04b7d70476f97598c
+  revision: ded39842d62340326c13ee29add72f6e895e3ae0
   branch: master
   specs:
     stockor (0.5.0)
@@ -236,7 +236,7 @@ GEM
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
     rb-readline (0.5.3)
-    redis (3.3.1)
+    redis (3.3.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     require_all (1.3.3)

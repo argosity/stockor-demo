@@ -1,5 +1,6 @@
 set :application, 'stockor'
-set :repo_url, 'git@github.com:argosity/stockor-demo-access.git'
+set :repo_url, 'https://github.com/argosity/stockor-demo.git'
+set :ssh_options, {forward_agent: true}
 set :passenger_restart_with_touch, true
 set :deploy_to, '/srv/www/stockor-demo'
 set :linked_files, %w(config/secrets.rb config/database.yml)
