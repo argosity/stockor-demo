@@ -59,12 +59,12 @@ module StockorDemo
                 self.locations         = Locations.new( 3 )
 
                 self.customers         = Customers.new( 15 )
-                # self.vendors           = Vendors.new( 12 )
-                # self.skus              = Skus.new( 35 )
-                # self.projects          = CustomerProjects.new( 5 )
-                # self.time_entries      = TimeEntries.new( 80 )
-                # self.sales_orders      = SalesOrders.new( 120 )
-                # self.invoices          = Invoices.new( 240 )
+                self.vendors           = Vendors.new( 12 )
+                self.skus              = Skus.new( 35 )
+                self.projects          = CustomerProjects.new( 5 )
+                self.time_entries      = TimeEntries.new( 80 )
+                self.sales_orders      = SalesOrders.new( 120 )
+                self.invoices          = Invoices.new( 240 )
 
                 self.users             = Users.new(8)
 

@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: https://github.com/argosity/stockor
-  revision: ded39842d62340326c13ee29add72f6e895e3ae0
+  revision: 246a5a8e83f7e1f6e6144e3dba8f59be0c1ed85c
   branch: master
   specs:
     stockor (0.5.0)
