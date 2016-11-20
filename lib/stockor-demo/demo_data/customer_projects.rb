@@ -7,7 +7,7 @@ module StockorDemo
 
             def initialize( count )
                 super()
-                @customers = Skr::Customer.order(:code).limit(9)
+                @customers = Skr::Customer.order(:code).limit(9).to_a
                 @customers.push Skr::Customer.find_by_code("STOCKOR")
                 ensure_record_count(count) do
                     begin
