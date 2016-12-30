@@ -36,20 +36,19 @@ module StockorDemo::DemoData
                 elsif 3 == n and Skr::TimeEntry.open.any?
                     te = Skr::TimeEntry.open.order('RANDOM()').first
                     l.merge!({time_entry: te,
-                              sku_loc: te.customer_project
-                                  .sku.sku_locs.for_location(location)} || sl)
+                              sku_loc: te.customer_project.sku.sku_locs.for_location(location) || sl })
                 else
                     l.merge!({time_entry: te, sku_loc: sl})
                 end
                 lines.push( l )
             end
 
-            super({
-                    customer: @customers.sample,
-                    po_num: Faker::Number.number(10),
-                    location: location,
-                    lines_attributes: lines
-                })
+            super(
+                customer: @customers.sample,
+                po_num: Faker::Number.number(10),
+                location: location,
+                lines_attributes: lines
+            )
 
         end
 
