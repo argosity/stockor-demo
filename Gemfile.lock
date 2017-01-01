@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/argosity/lanes
-  revision: 891717c9a812b277a6c663857703b82cc25f6072
+  revision: a0ec058e8fb691c3b62a342b81e8e27a90a3da48
   branch: master
   specs:
     lanes (0.6.1)
@@ -44,7 +44,7 @@ GIT
 
 GIT
   remote: https://github.com/argosity/stockor
-  revision: f6dc1327835e4834fa1bb882b5fa7c979da53bfa
+  revision: cb8362a4a9588335c18e9834e524f06ef8994003
   branch: master
   specs:
     stockor (0.5.0)
@@ -97,7 +97,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrussh (1.1.1)
+    airbrussh (1.1.2)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
     bcrypt (3.1.11)
@@ -134,7 +134,7 @@ GEM
     erb_latex (1.0.0)
     erubis (2.7.0)
     execjs (2.7.0)
-    faker (1.7.1)
+    faker (1.7.2)
       i18n (~> 0.5)
     fastimage (1.8.1)
       addressable (~> 2.3, >= 2.3.5)
@@ -208,7 +208,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (4.0.0)
     nio4r (1.2.1)
-    nokogiri (1.7.0)
+    nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     nokogumbo (1.2.0)
       nokogiri
@@ -224,7 +224,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    public_suffix (2.0.4)
+    public_suffix (2.0.5)
     puma (3.6.2)
     rack (2.0.1)
     rack-cors (0.4.0)
